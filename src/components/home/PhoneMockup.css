@@ -1,0 +1,381 @@
+.phone {
+  --phone-w: 300px;
+  width: var(--phone-w);
+  max-width: 100%;
+  filter: drop-shadow(0 40px 70px rgba(20, 33, 61, 0.22));
+}
+
+.phone__frame {
+  position: relative;
+  padding: 10px;
+  background: linear-gradient(150deg, #e8e6e1, #c9c7c2 45%, #eceae5);
+  border-radius: 46px;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.phone__notch {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 96px;
+  height: 26px;
+  background: #0a0a0c;
+  border-radius: var(--radius-pill);
+  z-index: 3;
+}
+
+.phone__screen {
+  position: relative;
+  background: #ffffff;
+  border-radius: 38px;
+  padding: 14px 14px 18px;
+  overflow: hidden;
+}
+
+/* ---- Status bar ----------------------------------------------------- */
+.phone__statusbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px 12px;
+  color: var(--color-text-primary);
+}
+
+.phone__time {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.phone__status-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ---- Greeting ------------------------------------------------------- */
+.phone__greeting {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.phone__hello {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+.phone__subhello {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+.phone__greeting-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.phone__bell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--color-surface-alt);
+  color: var(--color-text-primary);
+}
+
+.phone__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--color-gold-400), var(--color-gold-600));
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ---- Section titles ------------------------------------------------- */
+.phone__section-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+/* ---- Daily brief ---------------------------------------------------- */
+.phone__brief {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  padding: 10px 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  margin-bottom: 14px;
+}
+
+.phone__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1px;
+  padding: 0 2px;
+  border-right: 1px solid var(--color-border);
+}
+
+.phone__stat:last-child {
+  border-right: none;
+}
+
+.phone__stat-icon {
+  color: var(--color-gold-600);
+  margin-bottom: 2px;
+}
+
+.phone__stat-value {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.phone__stat-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.phone__stat-sub {
+  font-size: 8px;
+  color: var(--color-text-muted);
+}
+
+/* ---- Focus card ----------------------------------------------------- */
+.phone__focus {
+  position: relative;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  color: #fff;
+  overflow: hidden;
+  margin-bottom: 14px;
+  background: radial-gradient(
+      120% 90% at 78% 78%,
+      rgba(240, 155, 60, 0.55),
+      rgba(240, 155, 60, 0) 55%
+    ),
+    linear-gradient(160deg, #16233d 0%, #0b1424 55%, #060b16 100%);
+}
+
+.phone__focus::after {
+  /* subtle mountain silhouette */
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 40%;
+  background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.35)),
+    conic-gradient(from 90deg at 30% 100%, #0a1120 0 25%, transparent 0),
+    conic-gradient(from 90deg at 70% 100%, #0a1120 0 25%, transparent 0);
+  opacity: 0.6;
+}
+
+.phone__focus-eyebrow {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold-400);
+  margin-bottom: 6px;
+}
+
+.phone__focus-quote {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.25;
+}
+
+/* ---- Plan / tasks grid --------------------------------------------- */
+.phone__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.phone__card {
+  padding: 10px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+}
+
+.phone__card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.phone__card-head h5 {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.phone__viewall {
+  font-size: 7px;
+  font-style: italic;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.phone__add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-gold-500);
+  color: #fff;
+}
+
+.phone__list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.phone__plan-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 9px;
+}
+
+.phone__plan-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.phone__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.phone__dot--blue {
+  background: var(--tint-blue);
+}
+.phone__dot--gold {
+  background: var(--color-gold-500);
+}
+
+.phone__plan-time {
+  font-weight: 700;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.phone__plan-row .phone__chevron {
+  margin-left: auto;
+}
+
+.phone__plan-title {
+  padding-left: 11px;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.phone__task-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.phone__task-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.phone__task-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.phone__task-title {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.phone__task-tag {
+  font-size: 8px;
+  color: var(--color-text-muted);
+}
+
+.phone__chevron {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.phone__more {
+  font-size: 8px;
+  color: var(--color-text-muted);
+  padding-top: 2px;
+  border-top: 1px dashed var(--color-border);
+}
+
+/* Icon tints scoped to the mock so they don't clash with FeatureCard */
+.phone__task-icon.tint-blue {
+  background: var(--tint-blue-bg);
+  color: var(--tint-blue);
+}
+.phone__task-icon.tint-green {
+  background: var(--tint-green-bg);
+  color: var(--tint-green);
+}
+.phone__task-icon.tint-orange {
+  background: var(--tint-orange-bg);
+  color: var(--tint-orange);
+}
+
+@media (max-width: 480px) {
+  .phone {
+    --phone-w: 268px;
+  }
+}

@@ -1,0 +1,110 @@
+.btn {
+  --btn-py: 0.75rem;
+  --btn-px: 1.5rem;
+  --btn-fz: var(--text-sm);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: var(--btn-fz);
+  line-height: 1;
+  padding: var(--btn-py) var(--btn-px);
+  border-radius: var(--radius-pill);
+  border: 1.5px solid transparent;
+  white-space: nowrap;
+  transition: transform var(--transition-fast),
+    background-color var(--transition-fast), color var(--transition-fast),
+    border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn__icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn__icon svg {
+  width: 1.05em;
+  height: 1.05em;
+}
+
+/* ---- Sizes ---------------------------------------------------------- */
+.btn--sm {
+  --btn-py: 0.55rem;
+  --btn-px: 1.1rem;
+  --btn-fz: var(--text-xs);
+}
+
+.btn--lg {
+  --btn-py: 0.95rem;
+  --btn-px: 1.9rem;
+  --btn-fz: var(--text-base);
+}
+
+.btn--block {
+  width: 100%;
+}
+
+/* ---- Variants ------------------------------------------------------- */
+.btn--primary {
+  background-color: var(--color-navy-900);
+  color: var(--color-text-on-dark);
+  box-shadow: var(--shadow-sm);
+}
+.btn--primary:hover {
+  background-color: var(--color-navy-800);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.btn--secondary {
+  background-color: var(--color-gold-500);
+  color: var(--color-navy-900);
+  box-shadow: var(--shadow-sm);
+}
+.btn--secondary:hover {
+  background-color: var(--color-gold-400);
+  box-shadow: var(--shadow-gold);
+  transform: translateY(-1px);
+}
+
+.btn--outline {
+  background-color: transparent;
+  color: var(--color-navy-900);
+  border-color: var(--color-border-strong);
+}
+.btn--outline:hover {
+  border-color: var(--color-navy-900);
+  background-color: rgba(11, 27, 52, 0.03);
+}
+
+.btn--outline-gold {
+  background-color: transparent;
+  color: var(--color-gold-400);
+  border-color: rgba(214, 160, 58, 0.55);
+}
+.btn--outline-gold:hover {
+  border-color: var(--color-gold-400);
+  background-color: rgba(214, 160, 58, 0.12);
+  transform: translateY(-1px);
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-navy-900);
+}
+.btn--ghost:hover {
+  background-color: rgba(11, 27, 52, 0.05);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.55;
+  pointer-events: none;
+}

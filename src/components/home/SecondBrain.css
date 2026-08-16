@@ -1,0 +1,95 @@
+.second-brain__inner {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr;
+  align-items: center;
+  gap: clamp(2rem, 4vw, 3.5rem);
+}
+
+/* ---- Intro ---------------------------------------------------------- */
+.second-brain__title {
+  font-size: var(--text-2xl);
+  margin-top: var(--space-sm);
+}
+
+.second-brain__text {
+  margin-top: var(--space-md);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-normal);
+  max-width: 34ch;
+}
+
+.second-brain__link {
+  margin-top: var(--space-md);
+  padding-inline: 0;
+  color: var(--color-gold-600);
+}
+.second-brain__link:hover {
+  background: transparent;
+  color: var(--color-gold-500);
+}
+
+/* ---- Points --------------------------------------------------------- */
+.second-brain__points {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg) var(--space-md);
+}
+
+.second-brain__point {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.second-brain__point-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-gold-600);
+  box-shadow: var(--shadow-xs);
+}
+
+.second-brain__point-title {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.second-brain__point-desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: 1.45;
+}
+
+/* ---- Art ------------------------------------------------------------ */
+.second-brain__art {
+  display: flex;
+  justify-content: center;
+}
+
+/* ---- Responsive ----------------------------------------------------- */
+@media (max-width: 1000px) {
+  .second-brain__inner {
+    grid-template-columns: 1fr 1fr;
+  }
+  .second-brain__art {
+    grid-column: 1 / -1;
+    order: 3;
+    margin-top: var(--space-md);
+  }
+}
+
+@media (max-width: 640px) {
+  .second-brain__inner {
+    grid-template-columns: 1fr;
+  }
+  .second-brain__points {
+    gap: var(--space-lg);
+  }
+}

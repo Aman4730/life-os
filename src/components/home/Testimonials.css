@@ -1,0 +1,103 @@
+.testimonials__viewport {
+  overflow: hidden;
+  margin-top: var(--space-2xl);
+}
+
+.testimonials__track {
+  display: flex;
+  transition: transform var(--transition-slow);
+}
+
+.testimonials__page {
+  flex: 0 0 100%;
+  display: grid;
+  grid-template-columns: repeat(var(--per-view, 3), 1fr);
+  gap: var(--space-lg);
+  align-items: stretch;
+}
+
+.testimonial {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.testimonial:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.testimonial__quote-icon {
+  color: var(--color-gold-500);
+  opacity: 0.5;
+}
+
+.testimonial__quote {
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  color: var(--color-text-primary);
+  font-style: italic;
+  flex: 1;
+}
+
+.testimonial__author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.testimonial__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--color-navy-700), var(--color-navy-900));
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  flex-shrink: 0;
+}
+
+.testimonial__name {
+  display: block;
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+}
+
+.testimonial__role {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* ---- Dots ----------------------------------------------------------- */
+.testimonials__dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin-top: var(--space-xl);
+}
+
+.testimonials__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--color-border-strong);
+  transition: width var(--transition-normal), background-color var(--transition-normal);
+}
+
+.testimonials__dot--active {
+  width: 26px;
+  background: var(--color-gold-500);
+}

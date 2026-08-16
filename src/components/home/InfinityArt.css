@@ -1,0 +1,22 @@
+.infinity-art {
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  animation: art-float 6s ease-in-out infinite;
+}
+
+@keyframes art-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .infinity-art {
+    animation: none;
+  }
+}

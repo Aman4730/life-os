@@ -1,0 +1,35 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-shrink: 0;
+}
+
+.logo__mark {
+  width: auto;
+  transition: transform var(--transition-normal);
+}
+
+.logo:hover .logo__mark {
+  transform: scale(1.05);
+}
+
+.logo__wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+  line-height: 1;
+}
+
+.logo--dark .logo__wordmark {
+  color: var(--color-navy-900);
+}
+
+.logo--light .logo__wordmark {
+  color: var(--color-text-on-dark);
+}
+
+.logo__wordmark-accent {
+  color: var(--color-gold-500);
+}

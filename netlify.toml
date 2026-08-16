@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# SPA fallback — every route is served by index.html so client-side
+# routing (react-router) works on direct loads and refreshes.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

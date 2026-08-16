@@ -1,0 +1,118 @@
+/* =========================================================================
+   Design Tokens — single source of truth for the LifeOS visual system.
+   Values are derived from the landing-page reference.
+   ========================================================================= */
+
+:root {
+  /* ---- Brand ---------------------------------------------------------- */
+  --color-navy-900: #0b1b34; /* primary — buttons, CTA banner, ink       */
+  --color-navy-800: #12294a;
+  --color-navy-700: #1c3a63;
+
+  --color-gold-600: #c08a2c;
+  --color-gold-500: #d6a03a; /* accent — "One Life", stars, gold buttons  */
+  --color-gold-400: #e3b558;
+
+  /* Semantic brand aliases */
+  --color-primary: var(--color-navy-900);
+  --color-primary-hover: var(--color-navy-800);
+  --color-secondary: var(--color-gold-500);
+  --color-secondary-hover: var(--color-gold-600);
+
+  /* ---- Surfaces & backgrounds ---------------------------------------- */
+  --color-background: #ffffff;
+  --color-surface: #ffffff;
+  --color-surface-alt: #faf8f3; /* warm off-white section band            */
+  --color-surface-cream: #f6f1e9; /* hero silk base                       */
+  --color-overlay-dark: rgba(11, 27, 52, 0.88);
+
+  /* ---- Text ----------------------------------------------------------- */
+  --color-text-primary: #14213d;
+  --color-text-secondary: #5b6472;
+  --color-text-muted: #8a93a2;
+  --color-text-on-dark: #f4f6fb;
+  --color-text-on-dark-muted: #aebbd2;
+
+  /* ---- Borders & lines ------------------------------------------------ */
+  --color-border: #eceae3;
+  --color-border-strong: #ddd9cf;
+  --color-border-on-dark: rgba(255, 255, 255, 0.14);
+
+  /* ---- Functional icon tints (soft chip bg + solid) ------------------ */
+  --tint-blue-bg: #e8f0fe;
+  --tint-blue: #3b82f6;
+  --tint-green-bg: #e6f6ee;
+  --tint-green: #1f9d63;
+  --tint-purple-bg: #efe9fb;
+  --tint-purple: #7c53e0;
+  --tint-red-bg: #fdeaea;
+  --tint-red: #e5484d;
+  --tint-orange-bg: #fdefdf;
+  --tint-orange: #ec8b1f;
+
+  /* ---- Status --------------------------------------------------------- */
+  --color-success: #1f9d63;
+  --color-error: #e5484d;
+
+  /* ---- Typography ----------------------------------------------------- */
+  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+
+  --text-xs: 0.75rem; /* 12 */
+  --text-sm: 0.875rem; /* 14 */
+  --text-base: 1rem; /* 16 */
+  --text-md: 1.125rem; /* 18 */
+  --text-lg: 1.375rem; /* 22 */
+  --text-xl: 1.75rem; /* 28 */
+  --text-2xl: 2.25rem; /* 36 */
+  --text-3xl: 2.75rem; /* 44 */
+  --text-4xl: 3.5rem; /* 56 */
+
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.6;
+
+  --tracking-wide: 0.14em; /* eyebrow labels */
+  --tracking-normal: 0;
+  --tracking-tight: -0.02em;
+
+  /* ---- Spacing scale (8pt-based) ------------------------------------- */
+  --space-2xs: 0.25rem; /* 4  */
+  --space-xs: 0.5rem; /* 8  */
+  --space-sm: 0.75rem; /* 12 */
+  --space-md: 1rem; /* 16 */
+  --space-lg: 1.5rem; /* 24 */
+  --space-xl: 2.5rem; /* 40 */
+  --space-2xl: 4rem; /* 64 */
+  --space-3xl: 6rem; /* 96 */
+
+  /* ---- Layout --------------------------------------------------------- */
+  --container-max: 1200px;
+  --container-narrow: 820px;
+  --container-pad: clamp(1.25rem, 5vw, 2.5rem);
+  --section-pad-y: clamp(3.5rem, 7vw, 6rem);
+
+  /* ---- Radius --------------------------------------------------------- */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* ---- Shadows -------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px rgba(20, 33, 61, 0.05);
+  --shadow-sm: 0 2px 8px rgba(20, 33, 61, 0.06);
+  --shadow-md: 0 12px 30px rgba(20, 33, 61, 0.08);
+  --shadow-lg: 0 24px 60px rgba(20, 33, 61, 0.12);
+  --shadow-gold: 0 12px 28px rgba(214, 160, 58, 0.28);
+
+  /* ---- Motion --------------------------------------------------------- */
+  --transition-fast: 140ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 240ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 500ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ---- Z-index -------------------------------------------------------- */
+  --z-header: 100;
+  --z-drawer: 200;
+}
