@@ -64,7 +64,7 @@ export default function Features() {
                   tint={f.tint}
                   title={f.title}
                   description={f.description}
-                  showArrow={false}
+                  to={f.to}
                 />
               </Reveal>
             ))}

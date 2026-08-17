@@ -2,7 +2,6 @@ import { Sparkles, ArrowRight, Play, Star } from "lucide-react";
 import Container from "../ui/Container";
 import Button from "../ui/Button";
 import Badge from "../ui/Badge";
-import PhoneMockup from "./PhoneMockup";
 import "./Hero.css";
 
 const avatars = ["A", "R", "N", "M"];
@@ -61,10 +60,6 @@ export default function Hero() {
               <span>Loved by 2,000+ users</span>
             </div>
           </div>
-        </div>
-
-        <div className="hero__visual">
-          <PhoneMockup />
         </div>
       </Container>
     </section>

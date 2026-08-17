@@ -1,19 +1,30 @@
 .hero {
   position: relative;
   overflow: hidden;
-  background: radial-gradient(
-      120% 120% at 85% 12%,
-      #f4ede1 0%,
-      #faf6ef 42%,
-      #ffffff 78%
-    );
+  /*
+   * Supplied device visual composited as the hero background:
+   *  - layer 1: cream gradient over the left half → keeps the copy readable
+   *  - layer 2: the image, anchored right so the phone stays on the right
+   *  - layer 3: cream fallback fills any area the image doesn't cover
+   */
+  background-image: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-surface-cream) 94%, transparent) 0%,
+      color-mix(in srgb, var(--color-surface-cream) 72%, transparent) 34%,
+      transparent 58%
+    ),
+    url("../../assets/hero-device.jpg");
+  background-repeat: no-repeat, no-repeat;
+  background-position: left center, right center;
+  background-size: 100% 100%, cover;
+  background-color: var(--color-surface-cream);
 }
 
 .hero__inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  position: relative;
+  display: flex;
   align-items: center;
-  gap: clamp(2rem, 5vw, 4rem);
+  min-height: clamp(560px, 66vh, 720px);
   padding-block: clamp(3rem, 6vw, 5.5rem);
 }
 
@@ -106,13 +117,6 @@
   color: var(--color-gold-500);
 }
 
-/* ---- Visual --------------------------------------------------------- */
-.hero__visual {
-  display: flex;
-  justify-content: center;
-  animation: hero-float-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
 @keyframes hero-rise {
   from {
     opacity: 0;
@@ -124,40 +128,72 @@
   }
 }
 
-@keyframes hero-float-in {
-  from {
-    opacity: 0;
-    transform: translateY(28px) scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: none;
+/* ---- Responsive ----------------------------------------------------- */
+/* Laptop / small desktop — pull the device slightly further right. */
+@media (max-width: 1100px) {
+  .hero {
+    background-position: left center, 88% center;
   }
 }
 
-/* ---- Responsive ----------------------------------------------------- */
+/*
+ * Tablet & mobile — the source image is landscape (device on the right), so
+ * beside-the-copy placement crowds the text. Instead we stack: copy sits over
+ * a solid cream veil at the top, and the device reads in the lower area.
+ */
 @media (max-width: 900px) {
+  .hero {
+    background-image: linear-gradient(
+        180deg,
+        var(--color-surface-cream) 0%,
+        var(--color-surface-cream) 62%,
+        color-mix(in srgb, var(--color-surface-cream) 45%, transparent) 80%,
+        transparent 100%
+      ),
+      url("../../assets/hero-device.jpg");
+    background-position: center top, 74% 70%;
+    background-size: 100% 100%, cover;
+  }
   .hero__inner {
-    grid-template-columns: 1fr;
-    text-align: center;
+    align-items: flex-start;
+    min-height: min(96vh, 860px);
   }
   .hero__content {
-    max-width: 620px;
+    max-width: 600px;
     margin-inline: auto;
-    order: 1;
+    text-align: center;
   }
-  .hero__visual {
-    order: 2;
-  }
-  .hero__badge {
-    margin-inline: auto;
-  }
+  .hero__badge,
   .hero__subtitle {
     margin-inline: auto;
   }
   .hero__actions,
   .hero__social {
     justify-content: center;
+  }
+}
+
+/*
+ * Small screens — the copy fills the hero, so there's no clean band for the
+ * device. Keep it as a soft, integrated texture behind everything (cream veil
+ * stays high for legibility, easing slightly toward the foot where the device
+ * silk/screen reads through).
+ */
+@media (max-width: 680px) {
+  .hero {
+    background-image: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--color-surface-cream) 94%, transparent) 0%,
+        color-mix(in srgb, var(--color-surface-cream) 88%, transparent) 52%,
+        color-mix(in srgb, var(--color-surface-cream) 75%, transparent) 100%
+      ),
+      url("../../assets/hero-device.jpg");
+    background-position: center top, 66% center;
+    background-size: 100% 100%, cover;
+  }
+  .hero__inner {
+    align-items: center;
+    min-height: min(90vh, 720px);
   }
 }
 
@@ -172,8 +208,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__content,
-  .hero__visual {
+  .hero__content {
     animation: none;
   }
 }

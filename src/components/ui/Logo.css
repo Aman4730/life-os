@@ -6,12 +6,48 @@
 }
 
 .logo__mark {
-  width: auto;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+  overflow: hidden;
   transition: transform var(--transition-normal);
 }
 
 .logo:hover .logo__mark {
   transform: scale(1.05);
+}
+
+/*
+ * Animated mark. The source clip has a solid light-grey background; brightening
+ * it to pure white and compositing with `multiply` blends that background into
+ * the (light) navbar/hero behind it, leaving only the metallic infinity + its
+ * moving highlight. No layout shift — the box keeps the original mark footprint.
+ */
+.logo__video {
+  /*
+   * The infinity occupies x:5.8–92.5%, y:1.7–86.9% of the source frame
+   * (aspect ≈1.81, matched by the mark box). These offsets map that region
+   * onto the box with a small margin so the full mark stays visible — never
+   * clipped left/right/top/bottom — while overflow trims only the (blended-
+   * out) grey frame edges.
+   */
+  position: absolute;
+  top: 4%;
+  left: 0;
+  width: 102%;
+  height: 103.5%;
+  object-fit: cover;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  filter: brightness(1.19) contrast(1.04);
+}
+
+/* Static fallback (reduced motion) fills the infinity-shaped box. */
+.logo__mark-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .logo__wordmark {
