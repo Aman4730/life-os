@@ -20,6 +20,7 @@ export const featurePillars = [
     tint: "blue",
     title: "AI Assistant",
     description: "Your personal AI that gets you.",
+    to: "/features/ai-assistant",
   },
   {
     id: 2,
@@ -27,6 +28,7 @@ export const featurePillars = [
     tint: "green",
     title: "Memory OS",
     description: "Remembers everything that matters.",
+    to: "/features/memory-os",
   },
   {
     id: 3,
@@ -34,6 +36,7 @@ export const featurePillars = [
     tint: "purple",
     title: "Tasks & Plan",
     description: "Plan smarter and stay on track.",
+    to: "/features/tasks-plan",
   },
   {
     id: 4,
@@ -41,6 +44,7 @@ export const featurePillars = [
     tint: "red",
     title: "Wellness",
     description: "Your health, our priority.",
+    to: "/features/wellness",
   },
   {
     id: 5,
@@ -48,6 +52,7 @@ export const featurePillars = [
     tint: "green",
     title: "Finance OS",
     description: "Manage money better.",
+    to: "/features",
   },
   {
     id: 6,
@@ -55,6 +60,7 @@ export const featurePillars = [
     tint: "blue",
     title: "Travel OS",
     description: "Plan, book & relax stress-free.",
+    to: "/features",
   },
   {
     id: 7,
@@ -62,6 +68,7 @@ export const featurePillars = [
     tint: "orange",
     title: "Shopping OS",
     description: "Smart shopping made easy.",
+    to: "/features",
   },
   {
     id: 8,
@@ -69,6 +76,7 @@ export const featurePillars = [
     tint: "red",
     title: "Privacy First",
     description: "You're in control. Always.",
+    to: "/features",
   },
 ];
 

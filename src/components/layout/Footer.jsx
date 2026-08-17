@@ -63,11 +63,11 @@ export default function Footer() {
       <Container className="footer__bottom">
         <p>© {year} LifeOS. All rights reserved.</p>
         <p className="footer__legal">
-          <Link to="/get-started" className="footer__link">
+          <Link to="/privacy-policy" className="footer__link">
             Privacy
           </Link>
           <span aria-hidden="true">·</span>
-          <Link to="/get-started" className="footer__link">
+          <Link to="/privacy-policy" className="footer__link">
             Terms
           </Link>
         </p>

@@ -1,11 +1,26 @@
 .testimonials__viewport {
   overflow: hidden;
   margin-top: var(--space-2xl);
+  /* Let the browser own vertical scroll; we handle horizontal swipes. */
+  touch-action: pan-y;
+  cursor: grab;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.testimonials__viewport:active {
+  cursor: grabbing;
 }
 
 .testimonials__track {
   display: flex;
   transition: transform var(--transition-slow);
+  will-change: transform;
+}
+
+/* While actively dragging, follow the finger with no easing. */
+.testimonials__track.is-dragging {
+  transition: none;
 }
 
 .testimonials__page {
@@ -81,12 +96,44 @@
   color: var(--color-text-muted);
 }
 
-/* ---- Dots ----------------------------------------------------------- */
+/* ---- Controls (arrows + dots) -------------------------------------- */
+.testimonials__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.testimonials__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-navy-900);
+  transition: background-color var(--transition-fast),
+    border-color var(--transition-fast), transform var(--transition-fast),
+    opacity var(--transition-fast);
+}
+
+.testimonials__arrow:hover:not(:disabled) {
+  border-color: var(--color-navy-900);
+  transform: translateY(-1px);
+}
+
+.testimonials__arrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .testimonials__dots {
   display: flex;
   justify-content: center;
   gap: var(--space-xs);
-  margin-top: var(--space-xl);
 }
 
 .testimonials__dot {

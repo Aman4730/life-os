@@ -80,24 +80,4 @@
   transform: translateX(4px);
 }
 
-/* ---- Tint variants -------------------------------------------------- */
-.tint-blue {
-  --card-tint: var(--tint-blue);
-  --card-tint-bg: var(--tint-blue-bg);
-}
-.tint-green {
-  --card-tint: var(--tint-green);
-  --card-tint-bg: var(--tint-green-bg);
-}
-.tint-purple {
-  --card-tint: var(--tint-purple);
-  --card-tint-bg: var(--tint-purple-bg);
-}
-.tint-red {
-  --card-tint: var(--tint-red);
-  --card-tint-bg: var(--tint-red-bg);
-}
-.tint-orange {
-  --card-tint: var(--tint-orange);
-  --card-tint-bg: var(--tint-orange-bg);
-}
+/* Tint variants (.tint-*) are defined globally in styles/globals.css. */

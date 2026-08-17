@@ -6,12 +6,14 @@ import PageLoader from "./components/ui/PageLoader";
 
 // Secondary pages are code-split — the landing page stays in the main bundle.
 const Features = lazy(() => import("./pages/Features/Features"));
+const FeatureDetail = lazy(() => import("./pages/FeatureDetail/FeatureDetail"));
 const UseCases = lazy(() => import("./pages/UseCases/UseCases"));
 const LifeScore = lazy(() => import("./pages/LifeScore/LifeScore"));
 const Pricing = lazy(() => import("./pages/Pricing/Pricing"));
 const About = lazy(() => import("./pages/About/About"));
 const Blog = lazy(() => import("./pages/Blog/Blog"));
 const GetStarted = lazy(() => import("./pages/GetStarted/GetStarted"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy/PrivacyPolicy"));
 const NotFound = lazy(() => import("./pages/NotFound/NotFound"));
 
 export default function App() {
@@ -24,6 +26,14 @@ export default function App() {
           element={
             <Suspense fallback={<PageLoader />}>
               <Features />
+            </Suspense>
+          }
+        />
+        <Route
+          path="features/:slug"
+          element={
+            <Suspense fallback={<PageLoader />}>
+              <FeatureDetail />
             </Suspense>
           }
         />
@@ -72,6 +82,14 @@ export default function App() {
           element={
             <Suspense fallback={<PageLoader />}>
               <GetStarted />
+            </Suspense>
+          }
+        />
+        <Route
+          path="privacy-policy"
+          element={
+            <Suspense fallback={<PageLoader />}>
+              <PrivacyPolicy />
             </Suspense>
           }
         />

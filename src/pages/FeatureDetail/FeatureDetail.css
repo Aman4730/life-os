@@ -1,0 +1,278 @@
+/* ---- Hero ----------------------------------------------------------- */
+.fd-hero {
+  background: radial-gradient(
+      120% 130% at 85% 0%,
+      #f4ede1 0%,
+      #faf6ef 45%,
+      #ffffff 80%
+    );
+  border-bottom: 1px solid var(--color-border);
+}
+
+.fd-hero__inner {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+
+.fd-hero__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: color var(--transition-fast);
+}
+.fd-hero__back:hover {
+  color: var(--color-gold-600);
+}
+
+.fd-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: var(--space-lg);
+  padding: 0.35rem 0.9rem 0.35rem 0.4rem;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-xs);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+.fd-hero__eyebrow-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-pill);
+  background: var(--card-tint-bg, var(--tint-blue-bg));
+  color: var(--card-tint, var(--tint-blue));
+}
+
+.fd-hero__title {
+  margin-top: var(--space-md);
+  font-size: clamp(2.1rem, 4.6vw, var(--text-3xl));
+  max-width: 15ch;
+}
+
+.fd-hero__lead {
+  margin-top: var(--space-md);
+  color: var(--color-text-secondary);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+  max-width: 48ch;
+}
+
+.fd-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-xl);
+}
+
+.fd-hero__visual {
+  display: flex;
+  justify-content: center;
+}
+
+/* ---- What is X ------------------------------------------------------ */
+.fd-what {
+  text-align: center;
+}
+
+.fd-what__title {
+  margin-top: var(--space-sm);
+  font-size: var(--text-2xl);
+}
+
+.fd-what__body {
+  margin-top: var(--space-md);
+  margin-inline: auto;
+  max-width: 62ch;
+  color: var(--color-text-secondary);
+  font-size: var(--text-md);
+  line-height: var(--leading-normal);
+}
+
+/* ---- Capabilities --------------------------------------------------- */
+.fd-caps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  margin-top: var(--space-2xl);
+}
+
+.fd-caps .reveal {
+  display: flex;
+}
+
+.fd-cap {
+  width: 100%;
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.fd-cap:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.fd-cap__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-md);
+  background: var(--card-tint-bg, var(--tint-blue-bg));
+  color: var(--card-tint, var(--tint-blue));
+  margin-bottom: var(--space-md);
+}
+
+.fd-cap__title {
+  font-size: var(--text-md);
+  margin-bottom: var(--space-2xs);
+}
+
+.fd-cap__desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-normal);
+}
+
+/* ---- Demo ----------------------------------------------------------- */
+.fd-demo {
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+
+.fd-demo__visual {
+  display: flex;
+  justify-content: center;
+}
+
+.fd-demo__title {
+  margin-top: var(--space-sm);
+  font-size: var(--text-2xl);
+}
+
+.fd-demo__body {
+  margin-top: var(--space-md);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-normal);
+  max-width: 50ch;
+}
+
+.fd-demo__points {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.fd-demo__points li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+.fd-demo__points svg {
+  color: var(--card-tint, var(--color-success));
+  flex-shrink: 0;
+}
+
+/* ---- Benefits ------------------------------------------------------- */
+.fd-benefits {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+  margin-top: var(--space-2xl);
+}
+
+.fd-benefits .reveal {
+  display: flex;
+}
+
+.fd-benefit {
+  width: 100%;
+  padding: var(--space-xl);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  text-align: center;
+}
+
+.fd-benefit__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: var(--card-tint-bg, var(--tint-blue-bg));
+  color: var(--card-tint, var(--tint-blue));
+  margin-bottom: var(--space-md);
+}
+
+.fd-benefit__title {
+  font-size: var(--text-md);
+  margin-bottom: var(--space-2xs);
+}
+
+.fd-benefit__desc {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-normal);
+}
+
+/* ---- Responsive ----------------------------------------------------- */
+@media (max-width: 900px) {
+  .fd-hero__inner {
+    grid-template-columns: 1fr;
+  }
+  .fd-hero__visual {
+    order: -1;
+  }
+  .fd-caps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .fd-demo {
+    grid-template-columns: 1fr;
+  }
+  .fd-demo__visual {
+    order: -1;
+  }
+  .fd-benefits {
+    grid-template-columns: 1fr;
+    max-width: 460px;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .fd-caps {
+    grid-template-columns: 1fr;
+  }
+  .fd-hero__actions .btn {
+    flex: 1;
+  }
+}

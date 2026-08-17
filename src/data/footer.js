@@ -22,7 +22,7 @@ export const footerColumns = [
     links: [
       { label: "Help Center", to: "/get-started" },
       { label: "Guides", to: "/blog" },
-      { label: "Privacy Policy", to: "/get-started" },
+      { label: "Privacy Policy", to: "/privacy-policy" },
     ],
   },
 ];

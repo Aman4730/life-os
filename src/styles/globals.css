@@ -114,6 +114,29 @@ strong {
   background-color: var(--color-surface-alt);
 }
 
+/* Soft functional tint tokens — set --card-tint / --card-tint-bg for
+   icon chips, accents and progress fills. Available site-wide. */
+.tint-blue {
+  --card-tint: var(--tint-blue);
+  --card-tint-bg: var(--tint-blue-bg);
+}
+.tint-green {
+  --card-tint: var(--tint-green);
+  --card-tint-bg: var(--tint-green-bg);
+}
+.tint-purple {
+  --card-tint: var(--tint-purple);
+  --card-tint-bg: var(--tint-purple-bg);
+}
+.tint-red {
+  --card-tint: var(--tint-red);
+  --card-tint-bg: var(--tint-red-bg);
+}
+.tint-orange {
+  --card-tint: var(--tint-orange);
+  --card-tint-bg: var(--tint-orange-bg);
+}
+
 /* ---- Accessibility -------------------------------------------------- */
 :focus-visible {
   outline: 2px solid var(--color-gold-500);

@@ -1,12 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import ScrollToTop from "./ScrollToTop";
+import "./RootLayout.css";
 
 /**
  * Shared shell for every route: skip link, header, page outlet, footer.
+ * Keying the content by pathname replays a subtle fade/slide on navigation.
  */
 export default function RootLayout() {
+  const { pathname } = useLocation();
+
   return (
     <>
       <ScrollToTop />
@@ -15,7 +19,9 @@ export default function RootLayout() {
       </a>
       <Header />
       <main id="main">
-        <Outlet />
+        <div key={pathname} className="route-fade">
+          <Outlet />
+        </div>
       </main>
       <Footer />
     </>

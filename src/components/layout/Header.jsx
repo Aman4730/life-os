@@ -12,7 +12,7 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
 
-  // Elevate the header once the page is scrolled.
+  // Elevate + solidify the header once the page is scrolled.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -25,16 +25,40 @@ export default function Header() {
     setMenuOpen(false);
   }, [location.pathname]);
 
-  // Lock body scroll while the drawer is open.
+  // Lock body scroll while the drawer is open and restore the exact
+  // scroll position on close. Pinning the body with position:fixed keeps
+  // the (fixed) overlay in the viewport no matter how far the page was
+  // scrolled when the menu was opened.
   useEffect(() => {
-    document.body.style.overflow = menuOpen ? "hidden" : "";
+    if (!menuOpen) return;
+
+    const { body } = document;
+    const scrollY = window.scrollY;
+
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.insetInline = "0";
+    body.style.width = "100%";
+
+    const onKey = (e) => {
+      if (e.key === "Escape") setMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+
     return () => {
-      document.body.style.overflow = "";
+      body.style.position = "";
+      body.style.top = "";
+      body.style.insetInline = "";
+      body.style.width = "";
+      window.removeEventListener("keydown", onKey);
+      window.scrollTo(0, scrollY);
     };
   }, [menuOpen]);
 
   return (
-    <header className={`header ${scrolled ? "header--scrolled" : ""}`}>
+    <header
+      className={`header ${scrolled || menuOpen ? "header--scrolled" : ""}`}
+    >
       <Container className="header__inner">
         <Logo size={28} />
 
@@ -65,6 +89,7 @@ export default function Header() {
             className="header__toggle"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
+            aria-controls="mobile-drawer"
             onClick={() => setMenuOpen((v) => !v)}
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -72,10 +97,20 @@ export default function Header() {
         </div>
       </Container>
 
-      {/* Mobile drawer */}
+      {/* Viewport-level overlay + drawer (mobile) */}
       <div
+        className={`header__scrim ${menuOpen ? "header__scrim--open" : ""}`}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden="true"
+      />
+      <div
+        id="mobile-drawer"
         className={`header__drawer ${menuOpen ? "header__drawer--open" : ""}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu"
         aria-hidden={!menuOpen}
+        inert={!menuOpen || undefined}
       >
         <nav aria-label="Mobile">
           <ul className="header__drawer-links">
@@ -100,15 +135,6 @@ export default function Header() {
           Get Started
         </Button>
       </div>
-
-      {menuOpen && (
-        <button
-          type="button"
-          className="header__scrim"
-          aria-label="Close menu"
-          onClick={() => setMenuOpen(false)}
-        />
-      )}
     </header>
   );
 }

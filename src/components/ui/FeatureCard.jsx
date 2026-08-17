@@ -1,10 +1,11 @@
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import "./FeatureCard.css";
 
 /**
  * Icon + title + description card with a soft-tinted icon chip.
  * `number` renders the numbered variant used on the landing grid;
- * `to`/`href` turn the whole card into a link with an arrow affordance.
+ * `to` (in-app route) / `href` (external) turn the whole card into a link.
  */
 export default function FeatureCard({
   icon: Icon,
@@ -16,12 +17,13 @@ export default function FeatureCard({
   href,
   showArrow = true,
 }) {
-  const Tag = to ? "a" : href ? "a" : "article";
-  const linkProps = to ? { href: to } : href ? { href } : {};
+  const isLink = Boolean(to || href);
+  const Tag = to ? Link : href ? "a" : "article";
+  const linkProps = to ? { to } : href ? { href } : {};
 
   return (
     <Tag
-      className={`feature-card tint-${tint} ${to || href ? "feature-card--link" : ""}`}
+      className={`feature-card tint-${tint} ${isLink ? "feature-card--link" : ""}`}
       {...linkProps}
     >
       <div className="feature-card__top">

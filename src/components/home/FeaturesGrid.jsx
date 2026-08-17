@@ -26,7 +26,7 @@ export default function FeaturesGrid() {
                 number={f.id}
                 title={f.title}
                 description={f.description}
-                to="/features"
+                to={f.to}
               />
             </Reveal>
           ))}
