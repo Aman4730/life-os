@@ -20,6 +20,7 @@ export const featurePillars = [
     tint: "blue",
     title: "AI Assistant",
     description: "Your personal AI that gets you.",
+    subline: "Ask, plan, create and get help without starting from scratch.",
     to: "/features/ai-assistant",
   },
   {
@@ -28,6 +29,7 @@ export const featurePillars = [
     tint: "green",
     title: "Memory OS",
     description: "Remembers everything that matters.",
+    subline: "Keep important people, ideas, notes and moments connected.",
     to: "/features/memory-os",
   },
   {
@@ -36,6 +38,7 @@ export const featurePillars = [
     tint: "purple",
     title: "Tasks & Plan",
     description: "Plan smarter and stay on track.",
+    subline: "Turn intentions into organized plans, priorities and daily action.",
     to: "/features/tasks-plan",
   },
   {
@@ -44,6 +47,7 @@ export const featurePillars = [
     tint: "red",
     title: "Wellness",
     description: "Your health, our priority.",
+    subline: "Build better routines and keep your everyday life in balance.",
     to: "/features/wellness",
   },
   {
@@ -52,6 +56,7 @@ export const featurePillars = [
     tint: "green",
     title: "Finance OS",
     description: "Manage money better.",
+    subline: "See where your money goes and plan ahead with confidence.",
     to: "/features",
   },
   {
@@ -60,6 +65,7 @@ export const featurePillars = [
     tint: "blue",
     title: "Travel OS",
     description: "Plan, book & relax stress-free.",
+    subline: "Keep trips, itineraries and bookings together in one place.",
     to: "/features",
   },
   {
@@ -68,6 +74,7 @@ export const featurePillars = [
     tint: "orange",
     title: "Shopping OS",
     description: "Smart shopping made easy.",
+    subline: "Track lists, orders and spending without the clutter.",
     to: "/features",
   },
   {
@@ -76,6 +83,7 @@ export const featurePillars = [
     tint: "red",
     title: "Privacy First",
     description: "You're in control. Always.",
+    subline: "Your data stays private, encrypted and fully yours.",
     to: "/features",
   },
 ];

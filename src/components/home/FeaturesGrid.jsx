@@ -26,6 +26,7 @@ export default function FeaturesGrid() {
                 number={f.id}
                 title={f.title}
                 description={f.description}
+                subline={f.subline}
                 to={f.to}
               />
             </Reveal>

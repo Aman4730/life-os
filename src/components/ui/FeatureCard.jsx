@@ -13,6 +13,7 @@ export default function FeatureCard({
   number,
   title,
   description,
+  subline,
   to,
   href,
   showArrow = true,
@@ -35,6 +36,7 @@ export default function FeatureCard({
 
       <h3 className="feature-card__title">{title}</h3>
       <p className="feature-card__desc">{description}</p>
+      {subline && <p className="feature-card__subline">{subline}</p>}
 
       {showArrow && (
         <span className="feature-card__arrow" aria-hidden="true">
