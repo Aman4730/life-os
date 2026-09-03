@@ -21,8 +21,8 @@ import "./FeatureDetail.css";
 /** Signature + demo visuals per feature slug (placeholder product mockups). */
 const showcases = {
   "ai-assistant": { Hero: ChatMock, Demo: PromptsMock },
-  "memory-os": { Hero: MemorySearchMock, Demo: MemoryCardsMock },
-  "tasks-plan": { Hero: PlanMock, Demo: WeekMock },
+  "memory": { Hero: MemorySearchMock, Demo: MemoryCardsMock },
+  "tasks": { Hero: PlanMock, Demo: WeekMock },
   wellness: { Hero: WellnessRingsMock, Demo: WellnessBalanceMock },
 };
 

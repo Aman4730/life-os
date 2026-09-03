@@ -1,6 +1,71 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import logoAnimation from "../../assets/logo-animation.mp4";
 import "./Logo.css";
+
+/**
+ * Keeps a muted looping <video> playing across the mobile autoplay pitfalls:
+ * iOS Low-Power Mode, first-paint gesture gating, and tab backgrounding.
+ * Retries play() on mount, on the first user gesture anywhere, and whenever
+ * the tab becomes visible again — so the mark animates on first load without
+ * needing the user to navigate first.
+ */
+function useResilientAutoplay(ref) {
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+
+    let cancelled = false;
+
+    const tryPlay = () => {
+      if (cancelled || !ref.current) return;
+      // Mobile Safari (and some Android engines) can drop the JSX `muted`
+      // attribute, then treat the clip as unmuted and block autoplay until a
+      // tap. Forcing the properties on every attempt keeps muted, inline
+      // autoplay permitted — so the mark animates the instant the page opens,
+      // no interaction needed.
+      ref.current.muted = true;
+      ref.current.defaultMuted = true;
+      ref.current.playsInline = true;
+      const p = ref.current.play();
+      if (p && typeof p.catch === "function") p.catch(() => {});
+    };
+
+    // Play once the tab is visible again (backgrounded tabs pause the clip).
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") tryPlay();
+    };
+
+    // Fallback: the first real user gesture unblocks gesture-gated autoplay.
+    const onFirstGesture = () => {
+      tryPlay();
+      removeGestureListeners();
+    };
+    const gestureEvents = ["pointerdown", "touchstart", "keydown"];
+    const removeGestureListeners = () => {
+      gestureEvents.forEach((evt) =>
+        window.removeEventListener(evt, onFirstGesture)
+      );
+    };
+
+    tryPlay();
+    // Some engines resolve dimensions late; retry once metadata is ready.
+    video.addEventListener("loadeddata", tryPlay);
+    document.addEventListener("visibilitychange", onVisibility);
+    window.addEventListener("pageshow", tryPlay);
+    gestureEvents.forEach((evt) =>
+      window.addEventListener(evt, onFirstGesture, { passive: true, once: false })
+    );
+
+    return () => {
+      cancelled = true;
+      video.removeEventListener("loadeddata", tryPlay);
+      document.removeEventListener("visibilitychange", onVisibility);
+      window.removeEventListener("pageshow", tryPlay);
+      removeGestureListeners();
+    };
+  }, [ref]);
+}
 
 /** Static SVG infinity mark — reduced-motion fallback / video poster. */
 function StaticMark() {
@@ -46,6 +111,9 @@ export default function Logo({
   size = 30,
   className = "",
 }) {
+  const videoRef = useRef(null);
+  useResilientAutoplay(videoRef);
+
   const prefersReduced =
     typeof window !== "undefined" &&
     window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
@@ -64,6 +132,7 @@ export default function Logo({
           <StaticMark />
         ) : (
           <video
+            ref={videoRef}
             className="logo__video"
             src={logoAnimation}
             autoPlay
@@ -79,7 +148,10 @@ export default function Logo({
       </span>
 
       {withWordmark && (
-        <span className="logo__wordmark">
+        <span
+          className="logo__wordmark"
+          style={{ fontSize: `${(size * 0.68).toFixed(1)}px` }}
+        >
           Life<span className="logo__wordmark-accent">OS</span>
         </span>
       )}

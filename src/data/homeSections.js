@@ -49,9 +49,27 @@ export const lifeAreas = [
 
 /* "How LifeOS works." */
 export const workSteps = [
-  { step: "01", icon: Inbox, title: "Capture", desc: "Put the things that matter into one place." },
-  { step: "02", icon: Sparkles, title: "Understand", desc: "LifeOS connects the context behind your information." },
-  { step: "03", icon: Zap, title: "Act", desc: "Turn that context into better decisions and daily action." },
+  {
+    step: "01",
+    icon: Inbox,
+    title: "Capture",
+    desc: "Put the things that matter into one place.",
+    detail: "Notes, tasks, links, even a quick voice memo.",
+  },
+  {
+    step: "02",
+    icon: Sparkles,
+    title: "Understand",
+    desc: "LifeOS connects the context behind your information.",
+    detail: "It links the people, dates and projects automatically.",
+  },
+  {
+    step: "03",
+    icon: Zap,
+    title: "Act",
+    desc: "Turn that context into better decisions and daily action.",
+    detail: "Get timely nudges and a clear plan for your day.",
+  },
 ];
 
 /* "A life that remembers." */
@@ -66,8 +84,36 @@ export const memoryItems = [
 
 /* "Made for real life." — a day with LifeOS. */
 export const dayMoments = [
-  { icon: Sunrise, tint: "orange", time: "Monday Morning", title: "Know what matters today." },
-  { icon: Sun, tint: "blue", time: "During Work", title: "Keep your priorities clear." },
-  { icon: Sunset, tint: "purple", time: "Evening", title: "Reflect, plan and reset." },
-  { icon: Coffee, tint: "green", time: "Weekend", title: "Make room for what matters." },
+  {
+    icon: Sunrise,
+    tint: "orange",
+    clock: "7:00 AM",
+    time: "Morning",
+    title: "Know what matters today.",
+    detail: "Your Daily Brief lands before the first email.",
+  },
+  {
+    icon: Sun,
+    tint: "blue",
+    clock: "1:30 PM",
+    time: "At work",
+    title: "Keep your priorities clear.",
+    detail: "Meeting notes and next steps, captured for you.",
+  },
+  {
+    icon: Sunset,
+    tint: "purple",
+    clock: "7:00 PM",
+    time: "Evening",
+    title: "Reflect, plan and reset.",
+    detail: "A gentle recap, with tomorrow set up in advance.",
+  },
+  {
+    icon: Coffee,
+    tint: "green",
+    clock: "Weekend",
+    time: "Downtime",
+    title: "Make room for what matters.",
+    detail: "Less admin to handle, more of your actual life.",
+  },
 ];

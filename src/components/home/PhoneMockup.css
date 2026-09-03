@@ -1,5 +1,5 @@
 .phone {
-  --phone-w: 300px;
+  --phone-w: 336px;
   width: var(--phone-w);
   max-width: 100%;
   filter: drop-shadow(0 40px 70px rgba(20, 33, 61, 0.22));
@@ -216,11 +216,14 @@
 /* ---- Plan / tasks grid --------------------------------------------- */
 .phone__grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* minmax(0,1fr) lets both columns stay equal and shrink; without the 0
+     floor the nowrap titles blow the second column out past the screen. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 8px;
 }
 
 .phone__card {
+  min-width: 0;
   padding: 10px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);

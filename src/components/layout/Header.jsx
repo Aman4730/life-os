@@ -60,7 +60,7 @@ export default function Header() {
       className={`header ${scrolled || menuOpen ? "header--scrolled" : ""}`}
     >
       <Container className="header__inner">
-        <Logo size={32} />
+        <Logo size={40} />
 
         <nav className="header__nav" aria-label="Primary">
           <ul className="header__links">
@@ -81,7 +81,7 @@ export default function Header() {
         </nav>
 
         <div className="header__actions">
-          <Button to="/get-started" size="sm" className="header__cta">
+          <Button to="/get-started" size="md" className="header__cta">
             Get Started
           </Button>
           <button

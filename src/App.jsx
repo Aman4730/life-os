@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import RootLayout from "./components/layout/RootLayout";
 import Home from "./pages/Home/Home";
 import PageLoader from "./components/ui/PageLoader";
@@ -13,7 +13,9 @@ const Pricing = lazy(() => import("./pages/Pricing/Pricing"));
 const About = lazy(() => import("./pages/About/About"));
 const Blog = lazy(() => import("./pages/Blog/Blog"));
 const GetStarted = lazy(() => import("./pages/GetStarted/GetStarted"));
+const Contact = lazy(() => import("./pages/Contact/Contact"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy/PrivacyPolicy"));
+const Terms = lazy(() => import("./pages/Terms/Terms"));
 const NotFound = lazy(() => import("./pages/NotFound/NotFound"));
 
 export default function App() {
@@ -28,6 +30,15 @@ export default function App() {
               <Features />
             </Suspense>
           }
+        />
+        {/* Legacy feature slugs → canonical routes */}
+        <Route
+          path="features/memory-os"
+          element={<Navigate to="/features/memory" replace />}
+        />
+        <Route
+          path="features/tasks-plan"
+          element={<Navigate to="/features/tasks" replace />}
         />
         <Route
           path="features/:slug"
@@ -86,10 +97,28 @@ export default function App() {
           }
         />
         <Route
-          path="privacy-policy"
+          path="contact"
+          element={
+            <Suspense fallback={<PageLoader />}>
+              <Contact />
+            </Suspense>
+          }
+        />
+        <Route
+          path="privacy"
           element={
             <Suspense fallback={<PageLoader />}>
               <PrivacyPolicy />
+            </Suspense>
+          }
+        />
+        {/* Legacy alias */}
+        <Route path="privacy-policy" element={<Navigate to="/privacy" replace />} />
+        <Route
+          path="terms"
+          element={
+            <Suspense fallback={<PageLoader />}>
+              <Terms />
             </Suspense>
           }
         />

@@ -15,14 +15,16 @@ export const footerColumns = [
       { label: "About Us", to: "/about" },
       { label: "Blog", to: "/blog" },
       { label: "Careers", to: "/about#careers" },
+      { label: "Contact", to: "/contact" },
     ],
   },
   {
     title: "Resources",
     links: [
-      { label: "Help Center", to: "/get-started" },
+      { label: "Help Center", to: "/contact" },
       { label: "Guides", to: "/blog" },
-      { label: "Privacy Policy", to: "/privacy-policy" },
+      { label: "Privacy Policy", to: "/privacy" },
+      { label: "Terms of Service", to: "/terms" },
     ],
   },
 ];

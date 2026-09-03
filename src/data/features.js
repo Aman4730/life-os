@@ -30,7 +30,7 @@ export const featurePillars = [
     title: "Memory OS",
     description: "Remembers everything that matters.",
     subline: "Keep important people, ideas, notes and moments connected.",
-    to: "/features/memory-os",
+    to: "/features/memory",
   },
   {
     id: 3,
@@ -39,7 +39,7 @@ export const featurePillars = [
     title: "Tasks & Plan",
     description: "Plan smarter and stay on track.",
     subline: "Turn intentions into organized plans, priorities and daily action.",
-    to: "/features/tasks-plan",
+    to: "/features/tasks",
   },
   {
     id: 4,

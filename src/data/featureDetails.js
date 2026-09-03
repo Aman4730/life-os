@@ -76,8 +76,8 @@ export const featureDetails = {
     },
   },
 
-  "memory-os": {
-    slug: "memory-os",
+  "memory": {
+    slug: "memory",
     icon: Layers,
     tint: "green",
     name: "Memory OS",
@@ -125,8 +125,8 @@ export const featureDetails = {
     },
   },
 
-  "tasks-plan": {
-    slug: "tasks-plan",
+  "tasks": {
+    slug: "tasks",
     icon: CalendarCheck,
     tint: "purple",
     name: "Tasks & Plan",

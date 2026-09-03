@@ -18,11 +18,15 @@ export default function MadeForRealLife() {
         <div className="mrl__track">
           {dayMoments.map((m, i) => (
             <Reveal key={m.time} className="mrl__card" delay={i * 80}>
-              <span className={`mrl__icon tint-${m.tint}`}>
-                <m.icon size={20} aria-hidden="true" />
-              </span>
+              <div className="mrl__card-head">
+                <span className={`mrl__icon tint-${m.tint}`}>
+                  <m.icon size={20} aria-hidden="true" />
+                </span>
+                <span className="mrl__clock">{m.clock}</span>
+              </div>
               <span className="mrl__time">{m.time}</span>
               <p className="mrl__moment">{m.title}</p>
+              <p className="mrl__detail">{m.detail}</p>
             </Reveal>
           ))}
         </div>

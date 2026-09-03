@@ -40,6 +40,18 @@
   pointer-events: none;
   mix-blend-mode: multiply;
   filter: brightness(1.19) contrast(1.04);
+  /*
+   * Force the blended video onto its own GPU compositing layer. Without this,
+   * mobile Safari (iOS) defers painting a mix-blend-mode video until some other
+   * repaint occurs — so the mark stayed blank on first load and only appeared
+   * after navigating/scrolling. Promoting the layer makes it paint immediately
+   * and consistently on first paint, desktop and mobile alike.
+   */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
 }
 
 /* Static fallback (reduced motion) fills the infinity-shaped box. */

@@ -39,25 +39,37 @@ const brands = [
   { name: "ChatGPT", mark: <OpenAIMark /> },
 ];
 
+const LogoRow = ({ ariaHidden = false }) => (
+  <ul className="trusted__group" aria-hidden={ariaHidden || undefined}>
+    {brands.map((b) => (
+      <li key={b.name} className="trusted__logo">
+        {b.mark}
+        <span
+          className={`trusted__name ${
+            b.wordmark === "stripe" ? "trusted__name--stripe" : ""
+          }`}
+        >
+          {b.wordmark || b.name}
+        </span>
+      </li>
+    ))}
+  </ul>
+);
+
 export default function TrustedBy() {
   return (
     <section className="trusted" aria-label="Trusted by leading brands">
       <Container>
         <p className="trusted__label">Trusted &amp; loved by leading brands</p>
-        <ul className="trusted__logos">
-          {brands.map((b) => (
-            <li key={b.name} className="trusted__logo">
-              {b.mark}
-              <span
-                className={`trusted__name ${
-                  b.wordmark === "stripe" ? "trusted__name--stripe" : ""
-                }`}
-              >
-                {b.wordmark || b.name}
-              </span>
-            </li>
-          ))}
-        </ul>
+
+        {/* Elevated panel with a seamless, hover-pausing marquee. Two identical
+            rows scroll as one loop; edges fade for a premium finish. */}
+        <div className="trusted__panel">
+          <div className="trusted__marquee">
+            <LogoRow />
+            <LogoRow ariaHidden />
+          </div>
+        </div>
       </Container>
     </section>
   );

@@ -174,26 +174,32 @@
 }
 
 /*
- * Small screens — the copy fills the hero, so there's no clean band for the
- * device. Keep it as a soft, integrated texture behind everything (cream veil
- * stays high for legibility, easing slightly toward the foot where the device
- * silk/screen reads through).
+ * Small screens — the landscape device shot competes with the copy when it
+ * bleeds through behind the text, so drop it entirely here. Instead the hero
+ * reads as a clean cream "silk" with a soft warm gold glow top-right: premium,
+ * uncluttered, and fully legible. The device product view still lands just
+ * below in the Daily Brief section, so nothing is lost.
  */
 @media (max-width: 680px) {
   .hero {
-    background-image: linear-gradient(
-        180deg,
-        color-mix(in srgb, var(--color-surface-cream) 94%, transparent) 0%,
-        color-mix(in srgb, var(--color-surface-cream) 88%, transparent) 52%,
-        color-mix(in srgb, var(--color-surface-cream) 75%, transparent) 100%
+    background-image: radial-gradient(
+        120% 80% at 82% 0%,
+        color-mix(in srgb, var(--color-gold-400) 16%, transparent) 0%,
+        transparent 46%
       ),
-      url("../../assets/hero-device.jpg");
-    background-position: center top, 66% center;
-    background-size: 100% 100%, cover;
+      radial-gradient(
+        100% 70% at 10% 100%,
+        color-mix(in srgb, var(--color-navy-700) 7%, transparent) 0%,
+        transparent 55%
+      );
+    background-repeat: no-repeat, no-repeat;
+    background-position: center, center;
+    background-size: cover, cover;
+    background-color: var(--color-surface-cream);
   }
   .hero__inner {
     align-items: center;
-    min-height: min(90vh, 720px);
+    min-height: min(78vh, 640px);
   }
 }
 

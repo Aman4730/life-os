@@ -1,37 +1,102 @@
 .trusted {
-  padding-block: var(--space-xl);
-  border-block: 1px solid var(--color-border);
+  padding-block: clamp(2.25rem, 5vw, 3.5rem);
   background-color: var(--color-surface);
 }
 
+/* Centred label flanked by hairline rules — quiet editorial framing. */
 .trusted__label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 3vw, 1.5rem);
   text-align: center;
   font-size: var(--text-xs);
   font-weight: 600;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--color-text-muted);
-  margin-bottom: var(--space-lg);
+  margin-bottom: clamp(1.25rem, 3vw, 1.75rem);
 }
 
-.trusted__logos {
+.trusted__label::before,
+.trusted__label::after {
+  content: "";
+  height: 1px;
+  width: clamp(1.5rem, 8vw, 4rem);
+  background: linear-gradient(90deg, transparent, var(--color-border-strong));
+}
+
+.trusted__label::after {
+  transform: scaleX(-1);
+}
+
+/* ---- Elevated logo panel ------------------------------------------- */
+.trusted__panel {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(180deg, #ffffff, var(--color-surface-alt));
+  box-shadow: var(--shadow-sm);
+  /* Soft-fade the strip into the panel edges so the loop feels endless. */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 7%,
+    #000 93%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 7%,
+    #000 93%,
+    transparent 100%
+  );
+}
+
+.trusted__marquee {
   display: flex;
-  flex-wrap: wrap;
+  width: max-content;
+  animation: trusted-scroll 34s linear infinite;
+}
+
+.trusted__panel:hover .trusted__marquee {
+  animation-play-state: paused;
+}
+
+@keyframes trusted-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* Two identical rows → shifting by half the track loops seamlessly. */
+    transform: translateX(-50%);
+  }
+}
+
+.trusted__group {
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: clamp(1.5rem, 5vw, 3.5rem);
+  flex-shrink: 0;
 }
 
 .trusted__logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #9aa1ab;
-  transition: color var(--transition-normal), transform var(--transition-normal);
+  justify-content: center;
+  gap: 0.55rem;
+  margin-inline: clamp(1.25rem, 3.2vw, 2.75rem);
+  color: #4c5464;
+  opacity: 0.92;
+  transition: color var(--transition-normal), opacity var(--transition-normal),
+    transform var(--transition-normal);
 }
 
 .trusted__logo:hover {
-  color: var(--color-text-primary);
+  color: var(--color-navy-900);
+  opacity: 1;
   transform: translateY(-2px);
 }
 
@@ -39,10 +104,33 @@
   font-size: 1.15rem;
   font-weight: 600;
   letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 .trusted__name--stripe {
   font-weight: 800;
   font-style: italic;
   letter-spacing: -0.03em;
+}
+
+/* Reduced motion (or no JS marquee wanted): one calm, centred row. */
+@media (prefers-reduced-motion: reduce) {
+  .trusted__panel {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .trusted__marquee {
+    animation: none;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem 0;
+  }
+  .trusted__group {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .trusted__group[aria-hidden] {
+    display: none;
+  }
 }

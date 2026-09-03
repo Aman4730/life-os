@@ -97,6 +97,9 @@
   padding-left: var(--space-md);
   font-size: var(--text-xs);
 }
+.newsletter__msg--idle {
+  color: var(--color-text-muted);
+}
 .newsletter__msg--error {
   color: var(--color-error);
 }

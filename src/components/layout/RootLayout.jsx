@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import ScrollToTop from "./ScrollToTop";
+import DocumentMeta from "./DocumentMeta";
 import "./RootLayout.css";
 
 /**
@@ -14,6 +15,7 @@ export default function RootLayout() {
   return (
     <>
       <ScrollToTop />
+      <DocumentMeta />
       <a href="#main" className="skip-link">
         Skip to content
       </a>

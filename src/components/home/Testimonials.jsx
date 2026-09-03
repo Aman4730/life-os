@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { Quote, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import Container from "../ui/Container";
 import SectionHeading from "../ui/SectionHeading";
 import { testimonials } from "../../data/testimonials";
@@ -116,11 +116,27 @@ export default function Testimonials() {
               >
                 {group.map((t) => (
                   <figure key={t.id} className="testimonial">
-                    <Quote
-                      className="testimonial__quote-icon"
-                      size={26}
-                      aria-hidden="true"
-                    />
+                    <div className="testimonial__top">
+                      <Quote
+                        className="testimonial__quote-icon"
+                        size={24}
+                        aria-hidden="true"
+                      />
+                      <span
+                        className="testimonial__stars"
+                        aria-label="Rated 5 out of 5"
+                      >
+                        {Array.from({ length: 5 }).map((_, si) => (
+                          <Star
+                            key={si}
+                            size={14}
+                            aria-hidden="true"
+                            fill="currentColor"
+                            strokeWidth={0}
+                          />
+                        ))}
+                      </span>
+                    </div>
                     <blockquote className="testimonial__quote">
                       {t.quote}
                     </blockquote>
@@ -128,9 +144,14 @@ export default function Testimonials() {
                       <span className="testimonial__avatar" aria-hidden="true">
                         {t.initials}
                       </span>
-                      <span>
+                      <span className="testimonial__meta">
                         <span className="testimonial__name">{t.name}</span>
                         <span className="testimonial__role">{t.role}</span>
+                        {t.context && (
+                          <span className="testimonial__context">
+                            {t.context}
+                          </span>
+                        )}
                       </span>
                     </figcaption>
                   </figure>
@@ -139,6 +160,10 @@ export default function Testimonials() {
             ))}
           </div>
         </div>
+
+        <p className="testimonials__swipe-hint" aria-hidden="true">
+          Swipe to explore
+        </p>
 
         <div className="testimonials__controls">
           <button

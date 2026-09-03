@@ -7,6 +7,7 @@ export const testimonials = [
     name: "Arjun P.",
     role: "Entrepreneur",
     initials: "AP",
+    context: "Runs his week from the Daily Brief",
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ export const testimonials = [
     name: "Neha Sharma",
     role: "Product Designer",
     initials: "NS",
+    context: "Lives in Tasks & Memory OS",
   },
   {
     id: 3,
@@ -21,6 +23,7 @@ export const testimonials = [
     name: "Ravi K. Singh",
     role: "Founder",
     initials: "RS",
+    context: "Leans on the AI Assistant daily",
   },
   {
     id: 4,
@@ -29,13 +32,15 @@ export const testimonials = [
     name: "Meera Iyer",
     role: "Consultant",
     initials: "MI",
+    context: "Starts each day with the brief",
   },
   {
     id: 5,
     quote:
-      "One memory across everything — my tasks, my money, my travel. It just works.",
+      "One memory across everything: my tasks, my money, my travel. It just works.",
     name: "Karan Malhotra",
     role: "Engineer",
     initials: "KM",
+    context: "Connected his whole life",
   },
 ];

@@ -71,8 +71,9 @@ export default function Newsletter() {
               role="status"
               aria-live="polite"
             >
+              {status === "idle" && "No spam. Unsubscribe anytime."}
               {status === "error" && "Please enter a valid email address."}
-              {status === "success" && "You're on the list — thanks for joining!"}
+              {status === "success" && "You're on the list. Thanks for joining!"}
             </p>
           </form>
         </div>

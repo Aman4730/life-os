@@ -9,6 +9,13 @@
   display: flex;
 }
 
+/* A bit more travel + a whisper of scale so each card clearly "lifts in" as it
+   scrolls into view (especially on mobile, one card at a time). Scoped to the
+   grid so the rest of the page keeps its calmer reveal. */
+.features__grid .reveal:not(.reveal--visible) {
+  transform: translateY(36px) scale(0.97);
+}
+
 .features__grid .feature-card {
   width: 100%;
 }

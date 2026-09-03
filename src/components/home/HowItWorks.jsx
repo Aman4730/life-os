@@ -1,6 +1,8 @@
+import { ArrowRight } from "lucide-react";
 import Container from "../ui/Container";
 import SectionHeading from "../ui/SectionHeading";
 import Reveal from "../ui/Reveal";
+import Button from "../ui/Button";
 import { workSteps } from "../../data/homeSections";
 import "./HowItWorks.css";
 
@@ -24,10 +26,22 @@ export default function HowItWorks() {
                 </span>
                 <span className="hiw__step-num">{s.step}</span>
               </div>
-              <h3 className="hiw__step-title">{s.title}</h3>
-              <p className="hiw__step-desc">{s.desc}</p>
+              <div className="hiw__step-body">
+                <h3 className="hiw__step-title">{s.title}</h3>
+                <p className="hiw__step-desc">{s.desc}</p>
+                <p className="hiw__step-detail">{s.detail}</p>
+              </div>
             </Reveal>
           ))}
+        </div>
+
+        <div className="hiw__footer">
+          <p className="hiw__footer-text">
+            Three steps. From scattered to sorted, automatically.
+          </p>
+          <Button to="/get-started" rightIcon={<ArrowRight />}>
+            Get started in 3 steps
+          </Button>
         </div>
       </Container>
     </section>
