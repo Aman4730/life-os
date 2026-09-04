@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
 import ScrollToTop from "./ScrollToTop";
+import ChatWidget from "../chat/ChatWidget";
 import DocumentMeta from "./DocumentMeta";
 import "./RootLayout.css";
 
@@ -26,6 +27,7 @@ export default function RootLayout() {
         </div>
       </main>
       <Footer />
+      <ChatWidget />
     </>
   );
 }
