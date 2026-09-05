@@ -12,6 +12,7 @@ import {
 import Container from "../ui/Container";
 import SectionHeading from "../ui/SectionHeading";
 import Reveal from "../ui/Reveal";
+import LogoMark from "../ui/LogoMark";
 import "./LessManaging.css";
 
 const scattered = [
@@ -76,21 +77,7 @@ export default function LessManaging() {
           <div className="lm__panel lm__panel--after">
             <span className="lm__panel-label lm__panel-label--gold">After</span>
             <div className="lm__hub">
-              <svg className="lm__hub-mark" viewBox="0 0 46 32" aria-hidden="true">
-                <defs>
-                  <linearGradient id="lmGold" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#e6bf6b" />
-                    <stop offset="100%" stopColor="#c08a2c" />
-                  </linearGradient>
-                  <linearGradient id="lmBlue" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#2f6bd6" />
-                    <stop offset="100%" stopColor="#173a86" />
-                  </linearGradient>
-                </defs>
-                <circle cx="13" cy="16" r="9" fill="none" stroke="url(#lmGold)" strokeWidth="5.4" />
-                <circle cx="31" cy="16" r="9" fill="none" stroke="url(#lmBlue)" strokeWidth="5.4" />
-                <circle cx="31" cy="16" r="2.6" fill="url(#lmGold)" />
-              </svg>
+              <LogoMark size={34} onDark className="lm__hub-mark" />
               <span className="lm__hub-name">One LifeOS</span>
             </div>
 

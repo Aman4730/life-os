@@ -18,6 +18,29 @@
 }
 
 /*
+ * On dark backgrounds the video's multiply blend would darken the mark into the
+ * surface. A light chip behind it restores the same light-surface blend the mark
+ * is designed for, so the animation stays crisp (e.g. the LessManaging hub).
+ */
+.logo__mark--on-dark {
+  overflow: visible;
+}
+
+.logo__mark--on-dark::before {
+  content: "";
+  position: absolute;
+  inset: -18% -6%;
+  border-radius: var(--radius-pill);
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.logo__mark--on-dark .logo__video,
+.logo__mark--on-dark .logo__mark-svg {
+  z-index: 1;
+}
+
+/*
  * Animated mark. The source clip has a solid light-grey background; brightening
  * it to pure white and compositing with `multiply` blends that background into
  * the (light) navbar/hero behind it, leaving only the metallic infinity + its

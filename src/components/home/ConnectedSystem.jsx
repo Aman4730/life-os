@@ -2,6 +2,7 @@ import { Check } from "lucide-react";
 import Container from "../ui/Container";
 import SectionHeading from "../ui/SectionHeading";
 import Reveal from "../ui/Reveal";
+import LogoMark from "../ui/LogoMark";
 import { systemNodes } from "../../data/homeSections";
 import "./ConnectedSystem.css";
 
@@ -67,21 +68,7 @@ export default function ConnectedSystem() {
             </svg>
 
             <div className="cs__hub" aria-hidden="true">
-              <svg className="cs__hub-mark" viewBox="0 0 46 32">
-                <defs>
-                  <linearGradient id="csGold" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#e6bf6b" />
-                    <stop offset="100%" stopColor="#c08a2c" />
-                  </linearGradient>
-                  <linearGradient id="csBlue" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#2f6bd6" />
-                    <stop offset="100%" stopColor="#173a86" />
-                  </linearGradient>
-                </defs>
-                <circle cx="13" cy="16" r="9" fill="none" stroke="url(#csGold)" strokeWidth="5.4" />
-                <circle cx="31" cy="16" r="9" fill="none" stroke="url(#csBlue)" strokeWidth="5.4" />
-                <circle cx="31" cy="16" r="2.6" fill="url(#csGold)" />
-              </svg>
+              <LogoMark size={30} className="cs__hub-mark" />
               <span className="cs__hub-label">LifeOS</span>
             </div>
 

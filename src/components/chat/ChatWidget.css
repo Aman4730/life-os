@@ -13,6 +13,11 @@
   flex-direction: column;
   align-items: flex-end;
   gap: var(--space-sm);
+  /* The container spans a large (mostly empty) area because the closed panel
+     still reserves layout space. Let clicks fall through it to the page —
+     only the real controls below opt back in. Without this, the transparent
+     box swallows every tap over the bottom of the screen (esp. on mobile). */
+  pointer-events: none;
 }
 
 /* ---- Floating launcher ---------------------------------------------- */
@@ -34,6 +39,7 @@
   box-shadow: var(--shadow-lg);
   cursor: pointer;
   isolation: isolate;
+  pointer-events: auto; /* opt back in — parent is pointer-events: none */
   animation: chat-float 4s ease-in-out infinite;
   transition: transform var(--transition-fast), box-shadow var(--transition-fast),
     opacity var(--transition-normal), visibility var(--transition-normal);
