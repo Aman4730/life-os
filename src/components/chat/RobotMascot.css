@@ -1,0 +1,47 @@
+/* Self-contained mascot styling (base + subtle life). */
+.robot-mascot {
+  display: block;
+  overflow: visible;
+}
+
+.robot-mascot__eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: robot-blink 5s ease-in-out infinite;
+}
+
+.robot-mascot__antenna,
+.robot-mascot__chest {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: robot-glow 2.6s ease-in-out infinite;
+}
+
+@keyframes robot-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.12);
+  }
+}
+
+@keyframes robot-glow {
+  0%,
+  100% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .robot-mascot__eyes,
+  .robot-mascot__antenna,
+  .robot-mascot__chest {
+    animation: none;
+  }
+}

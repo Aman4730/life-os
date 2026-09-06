@@ -1,262 +1,225 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Send, Minus, Sparkles, ArrowRight } from "lucide-react";
-import RobotMascot from "./RobotMascot";
-import {
-  botMeta,
-  starterTopics,
-  fallbackReply,
-  matchIntent,
-  getIntentById,
-} from "../../data/chatbot";
+import AssistantAvatar from "./AssistantAvatar";
+import ChatHeader from "./ChatHeader";
+import ChatMessages from "./ChatMessages";
+import ChatComposer from "./ChatComposer";
+import ChatSettings from "./ChatSettings";
+import ChatSettingsProvider from "./ChatSettingsProvider";
+import { useChatSettings, accentFor } from "./ChatSettingsContext";
+import { fetchReply, generateReply } from "../../data/chatbot";
 import "./ChatWidget.css";
 
-const AUTO_OPEN_DELAY = 1200; // ms after arrival before the bot greets
-const TYPING_DELAY = 700; // ms the "typing…" indicator shows before a reply
+const AUTO_OPEN_DELAY = 1200; // ms after arrival before Aria greets
+const MIN_THINKING = 450; // ms floor so the thinking state never just flashes
 
-let msgSeq = 0;
-const nextId = () => `m${++msgSeq}`;
+let seq = 0;
+const nextId = () => `m${++seq}`;
 
-/** Build a bot message from an intent-like object ({ answer, links, chips }). */
-function botMessage(reply) {
-  return {
-    id: nextId(),
-    from: "bot",
-    text: reply.answer,
-    links: reply.links || [],
-    chips: reply.chips || [],
-  };
-}
-
-export default function ChatWidget() {
+function ChatWidgetInner() {
   const navigate = useNavigate();
+  const { settings } = useChatSettings();
+  const accent = accentFor(settings.accent);
 
   const [open, setOpen] = useState(false);
-  const [input, setInput] = useState("");
+  const [showSettings, setShowSettings] = useState(false);
+  const [messages, setMessages] = useState([]);
   const [typing, setTyping] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      id: nextId(),
-      from: "bot",
-      text: botMeta.greeting,
-      links: [],
-      chips: starterTopics,
-    },
-  ]);
+  const [pendingKind, setPendingKind] = useState("text"); // "text" | "image"
+  const [error, setError] = useState(false);
 
-  const listRef = useRef(null);
-  const inputRef = useRef(null);
-  const typingTimer = useRef(null);
+  const messagesRef = useRef([]);
+  const lastQuery = useRef(null); // { text, intentId, history } — for retry
 
-  // Auto-activate the assistant on every arrival — first visit and every
-  // refresh — so the greeting is always waiting for the user.
+  // Keep a ref of the latest transcript so `send` can read prior turns for the
+  // AI context without adding messages to its dependencies.
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
+  // Auto-activate on arrival (every load/refresh), so Aria is ready and waiting.
   useEffect(() => {
     const t = setTimeout(() => setOpen(true), AUTO_OPEN_DELAY);
     return () => clearTimeout(t);
   }, []);
 
-  // Keep the transcript pinned to the latest message.
-  useEffect(() => {
-    listRef.current?.scrollTo({
-      top: listRef.current.scrollHeight,
-      behavior: "smooth",
-    });
-  }, [messages, typing]);
-
-  // Focus the input and wire Escape-to-close whenever the panel opens.
+  // Escape closes — the only implicit close. Inner clicks never close.
   useEffect(() => {
     if (!open) return;
-    const focus = setTimeout(() => inputRef.current?.focus(), 250);
-    const onKey = (e) => e.key === "Escape" && setOpen(false);
-    window.addEventListener("keydown", onKey);
-    return () => {
-      clearTimeout(focus);
-      window.removeEventListener("keydown", onKey);
+    const onKey = (e) => {
+      if (e.key === "Escape") setOpen(false);
     };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  useEffect(() => () => clearTimeout(typingTimer.current), []);
-
-  const openPanel = () => setOpen(true);
-
-  const replyWith = useCallback((reply) => {
+  const runReply = useCallback(async (text, intentId, history, wantsImage) => {
+    setError(false);
+    setPendingKind(wantsImage ? "image" : "text");
     setTyping(true);
-    clearTimeout(typingTimer.current);
-    typingTimer.current = setTimeout(() => {
-      setTyping(false);
-      setMessages((prev) => [...prev, botMessage(reply)]);
-    }, TYPING_DELAY);
-  }, []);
-
-  // Push a user bubble, then answer it.
-  const send = useCallback(
-    (rawText, forcedIntentId) => {
-      const text = rawText.trim();
-      if (!text) return;
+    const floor = new Promise((r) => setTimeout(r, MIN_THINKING));
+    try {
+      const resolve = (async () => {
+        try {
+          // Real AI (text or image) via the serverless Gemini proxy.
+          return await fetchReply(text, history, wantsImage);
+        } catch {
+          // Graceful fallback to the built-in knowledge base if the endpoint
+          // isn't reachable (plain `vite`, offline, or an API error).
+          return generateReply(text, intentId);
+        }
+      })();
+      const [reply] = await Promise.all([resolve, floor]);
       setMessages((prev) => [
         ...prev,
-        { id: nextId(), from: "user", text, links: [], chips: [] },
+        reply.kind === "image"
+          ? {
+              id: nextId(),
+              role: "assistant",
+              kind: "image",
+              imageUrl: reply.imageUrl,
+              caption: reply.caption,
+              prompt: text,
+              actions: reply.actions || [],
+            }
+          : {
+              id: nextId(),
+              role: "assistant",
+              text: reply.answer,
+              links: reply.links || [],
+              actions: reply.actions || [],
+            },
       ]);
-      const reply = forcedIntentId
-        ? getIntentById(forcedIntentId)
-        : matchIntent(text);
-      replyWith(reply || fallbackReply);
+    } catch {
+      setError(true);
+    } finally {
+      setTyping(false);
+    }
+  }, []);
+
+  const send = useCallback(
+    (rawText, intentId, wantsImage = false) => {
+      const text = rawText.trim();
+      if (!text) return;
+      const history = messagesRef.current.map((m) => ({
+        role: m.role,
+        text: m.text || (m.caption ? `[image] ${m.caption}` : ""),
+      }));
+      lastQuery.current = { text, intentId, history, wantsImage };
+      setMessages((prev) => [...prev, { id: nextId(), role: "user", text }]);
+      runReply(text, intentId, history, wantsImage);
     },
-    [replyWith]
+    [runReply]
   );
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    if (!input.trim() || typing) return;
-    send(input);
-    setInput("");
-  };
+  // The composer sends free text and its own "image mode" flag.
+  const onComposerSend = useCallback(
+    (text, wantsImage) => send(text, undefined, wantsImage),
+    [send]
+  );
 
-  // A quick-reply chip: echo its label as the user's turn, answer its intent.
-  const onChip = (chip) => {
-    if (typing) return;
-    send(
-      chip.label.replace(/^[^\p{L}\p{N}]+/u, "").trim() || chip.label,
-      chip.intent
-    );
-  };
+  // Suggested question / follow-up action that asks something.
+  const onPick = useCallback((q) => send(q.label, q.intent), [send]);
 
-  const onLink = (to) => {
-    navigate(to);
-    // Leave the panel open so the visitor can keep chatting after they land.
+  // Follow-up action: ask a question (intent) or navigate (to).
+  const onAction = useCallback(
+    (a) => {
+      if (a.to) {
+        navigate(a.to); // client-side; panel stays open
+        return;
+      }
+      send(a.label, a.intent);
+    },
+    [navigate, send]
+  );
+
+  const onRetry = useCallback(() => {
+    if (!lastQuery.current) return;
+    const { text, intentId, history, wantsImage } = lastQuery.current;
+    runReply(text, intentId, history, wantsImage);
+  }, [runReply]);
+
+  const openPanel = () => setOpen(true);
+  const closePanel = () => setOpen(false);
+
+  // Mobile backdrop: close only when the backdrop itself is tapped, never when
+  // a tap bubbles up from inside the panel (links, buttons, text selection…).
+  const onBackdrop = (e) => {
+    if (e.target === e.currentTarget) setOpen(false);
   };
 
   return (
-    <div className="chat-widget">
-      {/* Chat panel */}
+    <div
+      className="chat-widget"
+      style={{
+        "--chat-accent": accent.color,
+        "--chat-accent-strong": accent.strong,
+      }}
+    >
       <div
+        className={`chat-backdrop ${open ? "is-open" : ""}`}
+        onClick={onBackdrop}
+        aria-hidden="true"
+      />
+
+      <section
         className={`chat-panel ${open ? "chat-panel--open" : ""}`}
         role="dialog"
-        aria-label={`${botMeta.name}, ${botMeta.role}`}
+        aria-modal="false"
+        aria-label={`${settings.name}, your LifeOS assistant`}
         aria-hidden={!open}
       >
-        <header className="chat-panel__header">
-          <span className="chat-panel__avatar">
-            <RobotMascot size={30} />
-            <span className="chat-panel__status" aria-hidden="true" />
-          </span>
-          <span className="chat-panel__id">
-            <strong className="chat-panel__name">{botMeta.name}</strong>
-            <span className="chat-panel__role">
-              <span className="chat-panel__dot" aria-hidden="true" /> Online ·{" "}
-              {botMeta.role}
-            </span>
-          </span>
-          <button
-            type="button"
-            className="chat-panel__icon-btn"
-            onClick={() => setOpen(false)}
-            aria-label="Minimize chat"
-          >
-            <Minus size={18} />
-          </button>
-        </header>
+        <ChatHeader
+          onClose={closePanel}
+          onToggleSettings={() => setShowSettings((s) => !s)}
+          settingsOpen={showSettings}
+        />
 
-        <div className="chat-panel__messages" ref={listRef} aria-live="polite">
-          {messages.map((m) => (
-            <div key={m.id} className={`chat-msg chat-msg--${m.from}`}>
-              {m.from === "bot" && (
-                <span className="chat-msg__avatar" aria-hidden="true">
-                  <RobotMascot size={26} />
-                </span>
-              )}
-              <div className="chat-msg__stack">
-                <div className="chat-msg__bubble">{m.text}</div>
+        {showSettings ? (
+          <div className="chat-settings-scroll">
+            <ChatSettings />
+          </div>
+        ) : (
+          <>
+            <ChatMessages
+              messages={messages}
+              typing={typing}
+              pendingKind={pendingKind}
+              error={error}
+              disabled={typing}
+              onPick={onPick}
+              onAction={onAction}
+              onRetry={onRetry}
+            />
 
-                {m.links?.length > 0 && (
-                  <div className="chat-msg__links">
-                    {m.links.map((l) => (
-                      <button
-                        key={l.to}
-                        type="button"
-                        className="chat-link"
-                        onClick={() => onLink(l.to)}
-                      >
-                        {l.label}
-                        <ArrowRight size={15} />
-                      </button>
-                    ))}
-                  </div>
-                )}
+            <ChatComposer onSend={onComposerSend} disabled={typing} open={open} />
 
-                {m.chips?.length > 0 && (
-                  <div className="chat-msg__chips">
-                    {m.chips.map((c, i) => (
-                      <button
-                        key={`${m.id}-${i}`}
-                        type="button"
-                        className="chat-chip"
-                        onClick={() => onChip(c)}
-                      >
-                        {c.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
+            <p className="chat-foot">
+              {settings.name} can make mistakes — double-check anything important.
+            </p>
+          </>
+        )}
+      </section>
 
-          {typing && (
-            <div className="chat-msg chat-msg--bot">
-              <span className="chat-msg__avatar" aria-hidden="true">
-                <RobotMascot size={26} />
-              </span>
-              <div className="chat-typing" aria-label="Assistant is typing">
-                <span />
-                <span />
-                <span />
-              </div>
-            </div>
-          )}
-        </div>
-
-        <form className="chat-panel__input" onSubmit={onSubmit}>
-          <input
-            ref={inputRef}
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your question…"
-            aria-label="Type your message"
-            autoComplete="off"
-          />
-          <button
-            type="submit"
-            className="chat-send"
-            disabled={!input.trim() || typing}
-            aria-label="Send message"
-          >
-            <Send size={18} />
-          </button>
-        </form>
-
-        <p className="chat-panel__footnote">
-          <Sparkles size={12} /> Powered by LifeOS Assistant
-        </p>
-      </div>
-
-      {/* Floating robot launcher with a live "thinking" dots bubble */}
       <button
         type="button"
         className={`chat-launcher ${open ? "chat-launcher--hidden" : ""}`}
         onClick={openPanel}
-        aria-label="Open chat assistant"
+        aria-label={`Open ${settings.name}, your LifeOS assistant`}
       >
-        <span className="chat-launcher__dots" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </span>
         <span className="chat-launcher__bot" aria-hidden="true">
-          <RobotMascot size={38} />
+          <AssistantAvatar size={36} />
         </span>
+        <span className="chat-launcher__presence" aria-hidden="true" />
       </button>
     </div>
+  );
+}
+
+export default function ChatWidget() {
+  return (
+    <ChatSettingsProvider>
+      <ChatWidgetInner />
+    </ChatSettingsProvider>
   );
 }

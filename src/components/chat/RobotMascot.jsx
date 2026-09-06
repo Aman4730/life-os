@@ -1,7 +1,9 @@
+import "./RobotMascot.css";
+
 /**
  * Original friendly robot mascot (inline SVG) for the LifeOS assistant.
  * Themed navy/gold, with a smiling screen-face; eyes blink and the antenna +
- * chest light pulse via CSS (see ChatWidget.css). `size` scales it uniformly.
+ * chest light pulse via CSS (RobotMascot.css). `size` scales it uniformly.
  */
 export default function RobotMascot({ size = 40, className = "" }) {
   return (
