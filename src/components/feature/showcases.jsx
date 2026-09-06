@@ -13,6 +13,7 @@ import {
   Dumbbell,
   BookOpen,
   Moon,
+  TrendingUp,
 } from "lucide-react";
 import "./showcases.css";
 
@@ -262,6 +263,69 @@ export function WellnessBalanceMock() {
           </li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+/* ---- LifeScore ------------------------------------------------------- */
+export function LifeScoreMock() {
+  const dims = [
+    { label: "Mind", value: 84, color: "var(--tint-purple)" },
+    { label: "Health", value: 74, color: "var(--tint-green)" },
+    { label: "Work", value: 88, color: "var(--tint-blue)" },
+  ];
+  const R = 46;
+  const C = 2 * Math.PI * R;
+  const SCORE = 82;
+  return (
+    <div className="mock">
+      <div className="scoremock">
+        <div className="scoremock__ring">
+          <svg width="112" height="112" viewBox="0 0 112 112" aria-hidden="true">
+            <defs>
+              <linearGradient id="scoremockGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="#e3b558" />
+                <stop offset="100%" stopColor="#c08a2c" />
+              </linearGradient>
+            </defs>
+            <circle cx="56" cy="56" r={R} fill="none" stroke="var(--color-border)" strokeWidth="9" />
+            <circle
+              cx="56"
+              cy="56"
+              r={R}
+              fill="none"
+              stroke="url(#scoremockGrad)"
+              strokeWidth="9"
+              strokeLinecap="round"
+              strokeDasharray={C}
+              strokeDashoffset={C * (1 - SCORE / 100)}
+              transform="rotate(-90 56 56)"
+            />
+          </svg>
+          <div className="scoremock__center">
+            <b>{SCORE}</b>
+            <span>LifeScore</span>
+          </div>
+        </div>
+        <ul className="scoremock__dims">
+          {dims.map((d) => (
+            <li key={d.label}>
+              <span className="scoremock__dim-label">{d.label}</span>
+              <span className="scoremock__dim-track">
+                <span
+                  className="scoremock__dim-fill"
+                  style={{ width: `${d.value}%`, background: d.color }}
+                />
+              </span>
+              <span className="scoremock__dim-value">{d.value}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <p className="scoremock__trend">
+        <TrendingUp size={14} />
+        <span>Up 4 points this week</span>
+      </p>
     </div>
   );
 }

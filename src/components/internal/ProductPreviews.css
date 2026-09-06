@@ -1,0 +1,275 @@
+/* =========================================================================
+   ProductPreviews — premium Features-page product UI (AI Assistant, Wellness).
+   Shares the surface/shadow language of the site; sits inside the showcase
+   "stage" so it reads as a real LifeOS screen.
+   ========================================================================= */
+
+.preview {
+  width: 100%;
+  max-width: 380px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+/* ---- AI Assistant ---------------------------------------------------- */
+.aip__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.aip__avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--color-text-on-dark);
+  background: linear-gradient(150deg, var(--color-navy-700), var(--color-navy-900));
+}
+
+.aip__id {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  margin-right: auto;
+}
+
+.aip__id strong {
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.aip__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.aip__status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-success);
+}
+
+.aip__spark {
+  color: var(--color-gold-500);
+}
+
+.aip__thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: var(--color-surface-alt);
+}
+
+.aip__msg {
+  max-width: 88%;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-lg);
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+}
+
+.aip__msg--user {
+  align-self: flex-end;
+  background: linear-gradient(150deg, var(--color-navy-700), var(--color-navy-900));
+  color: var(--color-text-on-dark);
+  border-bottom-right-radius: var(--radius-sm);
+}
+
+.aip__msg--bot {
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-bottom-left-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+}
+
+.aip__msg-lead {
+  font-weight: 600;
+}
+
+.aip__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xs);
+}
+
+.aip__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  padding: var(--space-xs) 4px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+}
+
+.aip__stat b {
+  font-family: var(--font-display);
+  font-size: var(--text-md);
+  color: var(--color-navy-900);
+}
+
+.aip__stat small {
+  font-size: 0.66rem;
+  color: var(--color-text-muted);
+}
+
+.aip__msg-foot {
+  color: var(--color-text-secondary);
+}
+
+.aip__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.aip__chips span {
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.aip__input {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-top: 1px solid var(--color-border);
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.aip__send {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  border-radius: 50%;
+  color: var(--color-text-on-dark);
+  background: var(--color-navy-900);
+}
+
+/* ---- Wellness -------------------------------------------------------- */
+.preview--wellness {
+  padding: var(--space-lg);
+}
+
+.wlp__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.wlp__eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.wlp__title {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-navy-900);
+}
+
+.wlp__ring {
+  flex: none;
+}
+
+.wlp__ring-num {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-navy-900);
+}
+
+.wlp__metrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.wlp__metric {
+  display: grid;
+  grid-template-columns: 22px 62px 1fr auto;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.wlp__metric-icon {
+  display: inline-flex;
+}
+
+.wlp__metric-label {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.wlp__metric-track {
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-alt);
+  overflow: hidden;
+}
+
+.wlp__metric-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+}
+
+.wlp__metric-value {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+.wlp__insight {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--tint-green-bg);
+  color: #1a7a4e;
+  font-size: var(--text-xs);
+  font-weight: 500;
+}
+
+.wlp__insight svg {
+  flex: none;
+  color: var(--tint-green);
+}

@@ -419,3 +419,100 @@
   font-weight: 600;
   color: var(--color-gold-600);
 }
+
+/* ---- LifeScore mock -------------------------------------------------- */
+.scoremock {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.scoremock__ring {
+  position: relative;
+  flex: none;
+  width: 112px;
+  height: 112px;
+}
+
+.scoremock__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.05;
+}
+
+.scoremock__center b {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  color: var(--color-navy-900);
+}
+
+.scoremock__center span {
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.scoremock__dims {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  min-width: 0;
+}
+
+.scoremock__dims li {
+  display: grid;
+  grid-template-columns: 48px 1fr 24px;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.scoremock__dim-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.scoremock__dim-track {
+  height: 7px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-alt);
+  overflow: hidden;
+}
+
+.scoremock__dim-fill {
+  display: block;
+  height: 100%;
+  border-radius: var(--radius-pill);
+}
+
+.scoremock__dim-value {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  text-align: right;
+}
+
+.scoremock__trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--space-md);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--tint-green);
+}
+
+@media (max-width: 380px) {
+  .scoremock {
+    flex-direction: column;
+    text-align: center;
+  }
+  .scoremock__dims {
+    width: 100%;
+  }
+}
