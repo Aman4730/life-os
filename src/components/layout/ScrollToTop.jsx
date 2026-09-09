@@ -23,6 +23,15 @@ import { useLocation } from "react-router-dom";
  *     visitor scrolls with real input. This covers programmatic navigation
  *     (navigate()) and browser back/forward, where no link is clicked.
  */
+/** Instant jump to the top, regardless of the global `scroll-behavior: smooth`. */
+function jumpToTop() {
+  const root = document.documentElement;
+  const previous = root.style.scrollBehavior;
+  root.style.scrollBehavior = "auto";
+  window.scrollTo(0, 0);
+  root.style.scrollBehavior = previous;
+}
+
 export default function ScrollToTop() {
   const { pathname, hash } = useLocation();
 
@@ -31,15 +40,6 @@ export default function ScrollToTop() {
       window.history.scrollRestoration = "manual";
     }
   }, []);
-
-  const jumpToTop = () => {
-    // Instant jump regardless of the global `scroll-behavior: smooth`.
-    const root = document.documentElement;
-    const previous = root.style.scrollBehavior;
-    root.style.scrollBehavior = "auto";
-    window.scrollTo(0, 0);
-    root.style.scrollBehavior = previous;
-  };
 
   // Guard 1 — reset before the lazy route swaps in (pre-shrink).
   useEffect(() => {
@@ -100,7 +100,6 @@ export default function ScrollToTop() {
       window.removeEventListener("touchmove", release, passive);
       window.removeEventListener("keydown", release);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, hash]);
 
   return null;
