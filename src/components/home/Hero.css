@@ -34,6 +34,11 @@
   animation: hero-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+/* Stacked device shot — desktop uses the CSS background instead, so hide it. */
+.hero__media {
+  display: none;
+}
+
 .hero__badge {
   margin-bottom: var(--space-lg);
 }
@@ -129,58 +134,28 @@
 }
 
 /* ---- Responsive ----------------------------------------------------- */
-/* Laptop / small desktop — pull the device slightly further right. */
-@media (max-width: 1100px) {
+/* Laptop / small desktop — pull the device slightly further right so it stays
+   clear of the copy while the side-by-side composition is still in play. */
+@media (max-width: 1200px) {
   .hero {
-    background-position: left center, 88% center;
+    background-position: left center, 92% center;
   }
 }
 
 /*
- * Tablet & mobile — the source image is landscape (device on the right), so
- * beside-the-copy placement crowds the text. Instead we stack: copy sits over
- * a solid cream veil at the top, and the device reads in the lower area.
+ * Tablet & below (≤1024px) — the source image is landscape with the device on
+ * the right, so a beside-the-copy placement inevitably slides the phone into
+ * the text column. Switch to an intentional stacked composition instead:
+ *
+ *   copy (heading, subtitle, CTAs, social proof)
+ *        ↓
+ *   device shot in a rounded product card
+ *
+ * The background image is dropped here (replaced by a clean cream silk with a
+ * soft gold glow) and the device is rendered as a real, stacked <img>, so it is
+ * never hidden and never sits behind the text.
  */
-@media (max-width: 900px) {
-  .hero {
-    background-image: linear-gradient(
-        180deg,
-        var(--color-surface-cream) 0%,
-        var(--color-surface-cream) 62%,
-        color-mix(in srgb, var(--color-surface-cream) 45%, transparent) 80%,
-        transparent 100%
-      ),
-      url("../../assets/hero-device.jpg");
-    background-position: center top, 74% 70%;
-    background-size: 100% 100%, cover;
-  }
-  .hero__inner {
-    align-items: flex-start;
-    min-height: min(96vh, 860px);
-  }
-  .hero__content {
-    max-width: 600px;
-    margin-inline: auto;
-    text-align: center;
-  }
-  .hero__badge,
-  .hero__subtitle {
-    margin-inline: auto;
-  }
-  .hero__actions,
-  .hero__social {
-    justify-content: center;
-  }
-}
-
-/*
- * Small screens — the landscape device shot competes with the copy when it
- * bleeds through behind the text, so drop it entirely here. Instead the hero
- * reads as a clean cream "silk" with a soft warm gold glow top-right: premium,
- * uncluttered, and fully legible. The device product view still lands just
- * below in the Daily Brief section, so nothing is lost.
- */
-@media (max-width: 680px) {
+@media (max-width: 1024px) {
   .hero {
     background-image: radial-gradient(
         120% 80% at 82% 0%,
@@ -188,8 +163,8 @@
         transparent 46%
       ),
       radial-gradient(
-        100% 70% at 10% 100%,
-        color-mix(in srgb, var(--color-navy-700) 7%, transparent) 0%,
+        100% 70% at 8% 100%,
+        color-mix(in srgb, var(--color-navy-700) 6%, transparent) 0%,
         transparent 55%
       );
     background-repeat: no-repeat, no-repeat;
@@ -197,19 +172,64 @@
     background-size: cover, cover;
     background-color: var(--color-surface-cream);
   }
+
   .hero__inner {
-    align-items: center;
-    min-height: min(78vh, 640px);
+    flex-direction: column;
+    align-items: stretch;
+    min-height: 0;
+    gap: clamp(2rem, 5vw, 3.25rem);
+    padding-block: clamp(2.75rem, 6vw, 4.5rem);
+  }
+
+  .hero__content {
+    max-width: 640px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .hero__badge,
+  .hero__subtitle {
+    margin-inline: auto;
+  }
+
+  .hero__actions,
+  .hero__social {
+    justify-content: center;
+  }
+
+  .hero__media {
+    display: block;
+    width: 100%;
+  }
+
+  .hero__media-img {
+    display: block;
+    width: 100%;
+    height: auto; /* override the width/height attrs so aspect-ratio drives size */
+    max-width: 760px;
+    margin-inline: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: 68% center;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
   }
 }
 
 @media (max-width: 520px) {
+  .hero__inner {
+    padding-block: clamp(2rem, 8vw, 2.75rem);
+  }
   .hero__actions .btn {
     width: 100%;
   }
   .hero__social {
     flex-direction: column;
     gap: var(--space-sm);
+  }
+  .hero__media-img {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
   }
 }
 

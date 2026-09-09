@@ -7,11 +7,12 @@ import ChatComposer from "./ChatComposer";
 import ChatSettings from "./ChatSettings";
 import ChatSettingsProvider from "./ChatSettingsProvider";
 import { useChatSettings, accentFor } from "./ChatSettingsContext";
-import { fetchReply, generateReply } from "../../data/chatbot";
+import { fetchReply } from "../../data/chatbot";
 import "./ChatWidget.css";
 
 const AUTO_OPEN_DELAY = 1200; // ms after arrival before Aria greets
 const MIN_THINKING = 450; // ms floor so the thinking state never just flashes
+const MOBILE_QUERY = "(max-width: 560px)"; // matches the full-screen panel breakpoint
 
 let seq = 0;
 const nextId = () => `m${++seq}`;
@@ -38,7 +39,11 @@ function ChatWidgetInner() {
   }, [messages]);
 
   // Auto-activate on arrival (every load/refresh), so Aria is ready and waiting.
+  // Never on mobile: there the panel is a full-screen sheet, so auto-opening
+  // would cover the whole site. On mobile only the floating launcher shows until
+  // the visitor taps it.
   useEffect(() => {
+    if (window.matchMedia?.(MOBILE_QUERY).matches) return;
     const t = setTimeout(() => setOpen(true), AUTO_OPEN_DELAY);
     return () => clearTimeout(t);
   }, []);
@@ -53,23 +58,19 @@ function ChatWidgetInner() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
-  const runReply = useCallback(async (text, intentId, history, wantsImage) => {
+  const runReply = useCallback(async (text, history, wantsImage) => {
     setError(false);
     setPendingKind(wantsImage ? "image" : "text");
     setTyping(true);
     const floor = new Promise((r) => setTimeout(r, MIN_THINKING));
     try {
-      const resolve = (async () => {
-        try {
-          // Real AI (text or image) via the serverless Gemini proxy.
-          return await fetchReply(text, history, wantsImage);
-        } catch {
-          // Graceful fallback to the built-in knowledge base if the endpoint
-          // isn't reachable (plain `vite`, offline, or an API error).
-          return generateReply(text, intentId);
-        }
-      })();
-      const [reply] = await Promise.all([resolve, floor]);
+      // Real AI (text or image) via the serverless Gemini function. If it fails
+      // we surface an honest error + retry rather than masking it with a canned
+      // reply — the visitor always knows when the assistant couldn't answer.
+      const [reply] = await Promise.all([
+        fetchReply(text, history, wantsImage),
+        floor,
+      ]);
       setMessages((prev) => [
         ...prev,
         reply.kind === "image"
@@ -98,49 +99,52 @@ function ChatWidgetInner() {
   }, []);
 
   const send = useCallback(
-    (rawText, intentId, wantsImage = false) => {
+    (rawText, wantsImage = false) => {
       const text = rawText.trim();
       if (!text) return;
       const history = messagesRef.current.map((m) => ({
         role: m.role,
         text: m.text || (m.caption ? `[image] ${m.caption}` : ""),
       }));
-      lastQuery.current = { text, intentId, history, wantsImage };
+      lastQuery.current = { text, history, wantsImage };
       setMessages((prev) => [...prev, { id: nextId(), role: "user", text }]);
-      runReply(text, intentId, history, wantsImage);
+      runReply(text, history, wantsImage);
     },
     [runReply]
   );
 
   // The composer sends free text and its own "image mode" flag.
   const onComposerSend = useCallback(
-    (text, wantsImage) => send(text, undefined, wantsImage),
+    (text, wantsImage) => send(text, wantsImage),
     [send]
   );
 
   // Suggested question / follow-up action that asks something.
-  const onPick = useCallback((q) => send(q.label, q.intent), [send]);
+  const onPick = useCallback((q) => send(q.label), [send]);
 
-  // Follow-up action: ask a question (intent) or navigate (to).
+  const closePanel = useCallback(() => setOpen(false), []);
+
+  // Follow-up action: ask a question, or navigate then close the panel so the
+  // destination page is fully visible (mirrors an in-message link click).
   const onAction = useCallback(
     (a) => {
       if (a.to) {
-        navigate(a.to); // client-side; panel stays open
+        navigate(a.to);
+        closePanel();
         return;
       }
-      send(a.label, a.intent);
+      send(a.label);
     },
-    [navigate, send]
+    [navigate, send, closePanel]
   );
 
   const onRetry = useCallback(() => {
     if (!lastQuery.current) return;
-    const { text, intentId, history, wantsImage } = lastQuery.current;
-    runReply(text, intentId, history, wantsImage);
+    const { text, history, wantsImage } = lastQuery.current;
+    runReply(text, history, wantsImage);
   }, [runReply]);
 
   const openPanel = () => setOpen(true);
-  const closePanel = () => setOpen(false);
 
   // Mobile backdrop: close only when the backdrop itself is tapped, never when
   // a tap bubbles up from inside the panel (links, buttons, text selection…).
@@ -190,6 +194,7 @@ function ChatWidgetInner() {
               onPick={onPick}
               onAction={onAction}
               onRetry={onRetry}
+              onLinkNavigate={closePanel}
             />
 
             <ChatComposer onSend={onComposerSend} disabled={typing} open={open} />

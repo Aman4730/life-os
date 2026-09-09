@@ -4,7 +4,12 @@ import MessageContent from "./MessageContent";
 import ChatLink from "./ChatLink";
 import QuickActions from "./QuickActions";
 
-export default function AssistantMessage({ message, onAction, disabled }) {
+export default function AssistantMessage({
+  message,
+  onAction,
+  onLinkNavigate,
+  disabled,
+}) {
   const isImage = message.kind === "image";
 
   return (
@@ -47,7 +52,11 @@ export default function AssistantMessage({ message, onAction, disabled }) {
             {message.links?.length > 0 && (
               <div className="chat-links">
                 {message.links.map((l, i) => (
-                  <ChatLink key={`${message.id}-l${i}`} link={l} />
+                  <ChatLink
+                    key={`${message.id}-l${i}`}
+                    link={l}
+                    onNavigate={onLinkNavigate}
+                  />
                 ))}
               </div>
             )}

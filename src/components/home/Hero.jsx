@@ -2,6 +2,7 @@ import { Sparkles, ArrowRight, Play, Star } from "lucide-react";
 import Container from "../ui/Container";
 import Button from "../ui/Button";
 import Badge from "../ui/Badge";
+import heroDevice from "../../assets/hero-device.jpg";
 import "./Hero.css";
 
 const avatars = ["A", "R", "N", "M"];
@@ -60,6 +61,23 @@ export default function Hero() {
               <span>Loved by 2,000+ users</span>
             </div>
           </div>
+        </div>
+
+        {/*
+         * Device shot. On desktop the composition uses the CSS background (see
+         * Hero.css); this element only appears on tablet/mobile, where the hero
+         * stacks the copy above the product image so nothing overlaps.
+         */}
+        <div className="hero__media" aria-hidden="true">
+          <img
+            className="hero__media-img"
+            src={heroDevice}
+            alt=""
+            width="1343"
+            height="784"
+            loading="eager"
+            decoding="async"
+          />
         </div>
       </Container>
     </section>

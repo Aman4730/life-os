@@ -20,6 +20,7 @@ export default function ChatMessages({
   onPick,
   onAction,
   onRetry,
+  onLinkNavigate,
 }) {
   const scrollRef = useRef(null);
   const atBottomRef = useRef(true);
@@ -72,6 +73,7 @@ export default function ChatMessages({
                 key={m.id}
                 message={m}
                 onAction={onAction}
+                onLinkNavigate={onLinkNavigate}
                 disabled={disabled}
               />
             )

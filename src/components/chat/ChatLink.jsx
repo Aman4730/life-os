@@ -7,11 +7,14 @@ import { ArrowRight, ExternalLink } from "lucide-react";
  *   cmd/ctrl-click still opens a new tab).
  * - External links open in a new tab with safe rel and a visual cue.
  *
- * Crucially, both stop click propagation so a parent/overlay handler can never
- * intercept the click — the chat never closes when a link is used.
+ * Both stop click propagation so a parent/overlay handler can never intercept
+ * the click. On an intentional internal navigation (a plain left-click) we let
+ * react-router perform the SPA nav and then close the panel via `onNavigate`,
+ * so the destination page is fully visible — the sequence is CLICK → NAVIGATE →
+ * CLOSE. Modifier / middle clicks (open-in-new-tab) and external links keep the
+ * chat open, since the visitor stays on the current page.
  */
-export default function ChatLink({ link }) {
-  const stop = (e) => e.stopPropagation();
+export default function ChatLink({ link, onNavigate }) {
   const isExternal = link.external || (link.href && /^https?:\/\//.test(link.href));
 
   if (isExternal) {
@@ -21,7 +24,7 @@ export default function ChatLink({ link }) {
         href={link.href}
         target="_blank"
         rel="noopener noreferrer"
-        onClick={stop}
+        onClick={(e) => e.stopPropagation()}
       >
         <span>{link.label}</span>
         <ExternalLink size={14} aria-hidden="true" />
@@ -29,8 +32,25 @@ export default function ChatLink({ link }) {
     );
   }
 
+  const handleClick = (e) => {
+    e.stopPropagation();
+    // Let new-tab intents (modifier / non-primary button) proceed untouched.
+    if (
+      e.defaultPrevented ||
+      e.button !== 0 ||
+      e.metaKey ||
+      e.ctrlKey ||
+      e.shiftKey ||
+      e.altKey
+    ) {
+      return;
+    }
+    // Don't preventDefault: react-router still handles the client-side nav.
+    onNavigate?.();
+  };
+
   return (
-    <Link className="chat-link" to={link.to} onClick={stop}>
+    <Link className="chat-link" to={link.to} onClick={handleClick}>
       <span>{link.label}</span>
       <ArrowRight size={15} aria-hidden="true" />
     </Link>
