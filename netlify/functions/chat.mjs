@@ -10,7 +10,9 @@
  *   { kind:"text",  answer, links, suggestions }  or
  *   { kind:"image", imageUrl, caption, suggestions }.
  *
- * Local dev:  `npm run dev:ai`     Production: set GEMINI_API_KEY in Netlify.
+ * Local dev: `npm run dev` (Vite middleware at /api/chat).
+ * Production: set GEMINI_API_KEY in the host's environment variables
+ * (Vercel → Settings → Environment Variables, or Netlify site settings).
  */
 
 const BASE = "https://generativelanguage.googleapis.com/v1beta/models";
@@ -220,7 +222,16 @@ export const handler = async (event) => {
 
   const key = process.env.GEMINI_API_KEY;
   if (!key) {
-    return jsonResponse(500, { error: "Server is missing GEMINI_API_KEY" });
+    // Most common production failure: the env var was set locally (.env) but
+    // never added to Netlify. Logged here so it's visible in the function logs.
+    console.error(
+      "[chat] Missing GEMINI_API_KEY. Add it in the host's environment " +
+        "variables (Vercel → Settings → Environment Variables), then redeploy."
+    );
+    return jsonResponse(500, {
+      error: "Server is missing GEMINI_API_KEY",
+      code: "missing_api_key",
+    });
   }
 
   let payload;
@@ -274,6 +285,8 @@ export const handler = async (event) => {
     if (!answer) return jsonResponse(502, { error: "Empty answer from model" });
     return jsonResponse(200, { kind: "text", answer, links, suggestions });
   } catch (err) {
+    // Surface the upstream reason in the function logs (never the API key).
+    console.error("[chat] Gemini request failed:", err.detail || err.message);
     return jsonResponse(502, { error: "Gemini request failed", detail: err.detail });
   }
 };

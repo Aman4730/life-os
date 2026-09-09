@@ -28,6 +28,7 @@ dist-ssr
 .env.local
 .env.*.local
 
-# Local Netlify folder
+# Local Netlify / Vercel folders
 .netlify
+.vercel
 deno.lock

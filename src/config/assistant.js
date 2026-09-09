@@ -4,7 +4,8 @@
  *
  *  Edit THIS ONE FILE to rename the assistant or change its animated icon.
  *  No other code needs to be touched. (For the AI's own self-name inside
- *  answers, also update SYSTEM_PROMPT in netlify/functions/chat.mjs.)
+ *  answers, also update SYSTEM_PROMPT in netlify/functions/chat.mjs,
+ *  which both /api/chat and the Netlify function reuse.)
  * ═══════════════════════════════════════════════════════════════════════
  */
 

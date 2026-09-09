@@ -3,10 +3,9 @@ import react from '@vitejs/plugin-react'
 import { handler as chatHandler } from './netlify/functions/chat.mjs'
 
 /**
- * Dev-only middleware that runs the Netlify chat function in-process, so a plain
- * `npm run dev` gets the *real* AI — no separate `netlify functions:serve`
- * process and no fragile localhost:9999 proxy. In production Netlify serves the
- * same function directly, so this plugin is a no-op there (`apply: 'serve'`).
+ * Dev-only middleware that runs the chat function in-process, so a plain
+ * `npm run dev` gets the *real* AI. Production Vercel serves /api/chat; this
+ * plugin is a no-op on `vite build` (`apply: 'serve'`).
  */
 function devChatFunction(env) {
   return {
@@ -17,7 +16,7 @@ function devChatFunction(env) {
       // the value loaded from .env so it's available in the dev process too.
       if (env.GEMINI_API_KEY) process.env.GEMINI_API_KEY = env.GEMINI_API_KEY
 
-      server.middlewares.use('/.netlify/functions/chat', async (req, res) => {
+      const runChat = async (req, res) => {
         try {
           const chunks = []
           for await (const chunk of req) chunks.push(chunk)
@@ -38,7 +37,11 @@ function devChatFunction(env) {
           res.setHeader('Content-Type', 'application/json')
           res.end(JSON.stringify({ error: 'Dev chat function error', detail: String(err) }))
         }
-      })
+      }
+
+      server.middlewares.use('/api/chat', runChat)
+      // Keep the old Netlify path working in local dev during the Vercel cutover.
+      server.middlewares.use('/.netlify/functions/chat', runChat)
     },
   }
 }

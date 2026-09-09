@@ -298,20 +298,83 @@ export function generateReply(text, forcedIntentId) {
   return intent || fallbackReply;
 }
 
+/** HTTP status → a stable, safe category for diagnostics (never a secret). */
+function categorize(status) {
+  if (status === 0) return "network"; // request never left the browser
+  if (status === 404) return "endpoint_missing"; // function not deployed / bad path
+  if (status === 401 || status === 403) return "unauthorized"; // key rejected/restricted
+  if (status === 429) return "rate_limited";
+  if (status === 400) return "bad_request";
+  if (status >= 500) return "server_error"; // includes missing GEMINI_API_KEY (500)
+  return "http_error";
+}
+
 /**
- * Real AI reply via the serverless Gemini proxy (netlify/functions/chat).
- * Returns a text reply { kind:"text", answer, links, actions } or an image
- * reply { kind:"image", imageUrl, caption, actions }. Throws so the caller can
- * fall back to the local KB. `history` is prior turns.
- * `wantsImage` forces image generation (the composer's image mode).
+ * Log a safe, categorized diagnostic for a chat failure. Surfaces the real cause
+ * (status + category + any server-provided message) so production issues are
+ * traceable in the browser console and function logs — without ever exposing
+ * the API key (the key lives only in the serverless function).
  */
+function logChatFailure({ status, category, serverError }) {
+  const hint =
+    category === "server_error" && /GEMINI_API_KEY/i.test(serverError || "")
+      ? "The site is missing the GEMINI_API_KEY environment variable. " +
+        "Set it in Vercel → Settings → Environment Variables, then redeploy."
+      : undefined;
+  // Concise, single line in every environment; extra hint when we can name the fix.
+  console.error(
+    `[Aria] chat request failed — status ${status} (${category})` +
+      (serverError ? ` · ${serverError}` : "") +
+      (hint ? `\n[Aria] ${hint}` : "")
+  );
+}
+
+/**
+ * Real AI reply via the serverless Gemini proxy (POST /api/chat).
+ * Returns a text reply { kind:"text", answer, links, actions } or an image
+ * reply { kind:"image", imageUrl, caption, actions }.
+ *
+ * On failure it throws an Error tagged with `.status` and `.category` (after
+ * logging a safe diagnostic), so the widget can show its error + "Try again"
+ * state and callers can distinguish causes. The secret API key never touches
+ * the browser — this only ever talks to the same-origin serverless function.
+ */
+const CHAT_ENDPOINT = "/api/chat";
+
 export async function fetchReply(message, history = [], wantsImage = false) {
-  const res = await fetch("/.netlify/functions/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message, history, wantsImage }),
-  });
-  if (!res.ok) throw new Error(`chat endpoint returned ${res.status}`);
+  let res;
+  try {
+    res = await fetch(CHAT_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, history, wantsImage }),
+    });
+  } catch (netErr) {
+    // fetch itself rejected: offline, DNS, connection reset, or a CORS block.
+    logChatFailure({ status: 0, category: "network", serverError: netErr.message });
+    const err = new Error("chat request failed to send");
+    err.category = "network";
+    err.status = 0;
+    throw err;
+  }
+
+  if (!res.ok) {
+    // Pull the server's own error message when present (safe — no secrets).
+    let serverError;
+    try {
+      const errBody = await res.clone().json();
+      serverError = errBody?.error || errBody?.detail;
+    } catch {
+      /* non-JSON error body — ignore */
+    }
+    const category = categorize(res.status);
+    logChatFailure({ status: res.status, category, serverError });
+    const err = new Error(`chat endpoint returned ${res.status}`);
+    err.status = res.status;
+    err.category = category;
+    throw err;
+  }
+
   const data = await res.json();
 
   if (data?.kind === "image") {

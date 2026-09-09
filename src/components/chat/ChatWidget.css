@@ -926,11 +926,7 @@
     );
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
-    transform: translateY(14px) scale(0.98);
-  }
-
-  .chat-panel--open {
-    transform: none;
+    /* Entrance transform + open state are inherited from the base rules. */
   }
 
   .chat-bubble {
